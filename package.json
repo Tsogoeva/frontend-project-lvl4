@@ -1,0 +1,24 @@
+{
+  "name": "frontend-project-lvl4",
+  "version": "1.0.0",
+  "description": "[![Actions Status](https://github.com/Tsogoeva/frontend-project-lvl4/workflows/hexlet-check/badge.svg)](https://github.com/Tsogoeva/frontend-project-lvl4/actions)",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "npm run build --prefix frontend",
+    "start": "start-server -s ./frontend/build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tsogoeva/frontend-project-lvl4.git"
+  },
+  "author": "TsogoevaTS",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tsogoeva/frontend-project-lvl4/issues"
+  },
+  "homepage": "https://github.com/Tsogoeva/frontend-project-lvl4#readme",
+  "dependencies": {
+    "@hexlet/chat-server": "^1.1.6"
+  }
+}
