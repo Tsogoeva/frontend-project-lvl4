@@ -1,6 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min";
-
 import React, { useState } from "react";
 import { 
   BrowserRouter as Router,
@@ -16,10 +13,10 @@ import { ToastContainer as Toaster } from "react-toastify";
 import useAuth from "./hooks/index.js";
 import AuthContext from "./contexts/index.js";
 
-import Chat from "./pages/ChatPage.jsx";
-import Login from "./pages/LoginPage.jsx";
-import SignUp from "./pages/SignUpPage.jsx";
-import NotFound from "./pages/NotFoundPage.jsx";
+import Chat from "./components/ChatPage.jsx";
+import Login from "./components/LoginPage.jsx";
+import SignUp from "./components/SignUpPage.jsx";
+import NotFound from "./components/NotFoundPage.jsx";
 import Header from "./components/Header.jsx";
 
 import routes from "./routes";

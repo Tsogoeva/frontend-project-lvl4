@@ -12,7 +12,7 @@ import * as yup from "yup";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import picture from "../assets/greetingPicture.jpg";
-import { useAuth } from "../hooks/index.js";
+import useAuth from "../hooks/index.js";
 import routes from "../routes";
 
 const Login = () => {
