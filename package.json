@@ -2,7 +2,7 @@
   "name": "frontend-project-lvl4",
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/Tsogoeva/frontend-project-lvl4/workflows/hexlet-check/badge.svg)](https://github.com/Tsogoeva/frontend-project-lvl4/actions)",
-  "main": "src/index.js",
+  "main": "frontend/src/index.js",
   "scripts": {
     "build": "cd frontend && npm install && cd .. && npm run build --prefix frontend",
     "start": "start-server -s ./frontend/build",
