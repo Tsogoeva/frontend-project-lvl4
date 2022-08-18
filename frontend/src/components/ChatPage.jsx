@@ -5,14 +5,14 @@ import {
   Col,
   Button,
   Spinner,
-} from 'react-bootstrap';
+} from "react-bootstrap";
 import { PlusSquare } from "react-bootstrap-icons";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
 import routes from "../routes.js";
-import useAuth from "../hooks/index.js";
+import { useAuth } from "../hooks/index.js";
 // import { useTranslation } from 'react-i18next';
 import { addChannels, selectors, setCurrentChannelId } from "../slices/channelsSlice.js";
 import { addMessages } from "../slices/messagesSlice.js";
@@ -22,17 +22,17 @@ import ChatHeader from "./ChatHeader.jsx";
 import ChatMessagesBox from "./ChatMessagesBox.jsx";
 import ChatMessageField from "./ChatMessageField.jsx";
 
-const renderModal = ({ modalInfo, hideModal, setItems }) => {
+/* const renderModal = ({ modalInfo, hideModal, setItems }) => {
   if (!modalInfo.type) {
     return null;
   }
 
   const Component = getModal(modalInfo.type);
   return <Component modalInfo={modalInfo} setItems={setItems} onHide={hideModal} />;
-};
+}; */
 
 const Chat = () => {
-  const auth = useAuth();
+  const { getAuthHeader } = useAuth();
   const dispatch = useDispatch();
 
   const [loadedData, setLoadedData] = useState(false);
@@ -40,7 +40,7 @@ const Chat = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(routes.dataPath(), { headers: auth.getAuthHeader() });
+        const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
         console.log(data)
         const {
           currentChannelId,
@@ -61,9 +61,9 @@ const Chat = () => {
     fetchData();
   });
 
-  const [modalInfo, setModalInfo] = useState({ type: null, item: null });
+/*   const [modalInfo, setModalInfo] = useState({ type: null, item: null });
   const hideModal = () => setModalInfo({ type: null, item: null });
-  const showModal = (type, item = null) => setModalInfo({ type, item });
+  const showModal = (type, item = null) => setModalInfo({ type, item }); */
 
   const ChatComponents = () => (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">
@@ -84,7 +84,7 @@ const Chat = () => {
           <div className="d-flex flex-column h-100">
             <ChatHeader />
             <ChatMessagesBox />
-           {/*  <ChatMessageField /> */}
+            <ChatMessageField />
           </div>
         </Col>
 
