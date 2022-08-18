@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 import {
     Container,
     Button,
     Navbar as BootstrapNavbar,
-} from 'react-bootstrap';
+} from "react-bootstrap";
 // import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-import useAuth from '../hooks/index.js';
+import { useAuth } from "../hooks/index.js";
 
 const Header = () => {
   const { logOut, loggedIn } = useAuth();
