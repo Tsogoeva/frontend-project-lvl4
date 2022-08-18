@@ -4,7 +4,7 @@ import {
   Nav,
   Dropdown,
   ButtonGroup,
-} from 'react-bootstrap';
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setCurrentChannelId } from "../slices/channelsSlice.js";
@@ -37,10 +37,10 @@ const ChatChannelsList = () => {
                   <span className="visually-hidden">Управление каналом</span>
                 </Dropdown.Toggle>
   
-                <Dropdown.Menu>
+                {/* <Dropdown.Menu>
                   <Dropdown.Item onClick={() => showModal('removing', id, name)}>Удалить</Dropdown.Item>
                   <Dropdown.Item onClick={() => showModal('renaming', id, name)}>Переименовать</Dropdown.Item>
-                </Dropdown.Menu>
+                </Dropdown.Menu> */}
   
               </Dropdown>
             </Nav.Item>
