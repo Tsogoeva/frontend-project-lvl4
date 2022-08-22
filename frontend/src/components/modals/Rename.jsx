@@ -1,45 +1,72 @@
-import React, { useEffect, useRef } from 'react';
-import { useFormik } from 'formik';
-import { Modal, FormGroup, FormControl } from 'react-bootstrap';
+import React, { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
+import { Modal, Form, InputGroup, Button } from "react-bootstrap";
+import { useFormik } from "formik";
+import * as yup from "yup";
 
-const generateOnSubmit = ({ modalInfo, setItems, onHide }) => (values) => {
-  setItems((items) => {
-    const item = items.find((i) => i.id === modalInfo.item.id);
-    item.body = values.body;
-  });
-  onHide();
-};
+import { useSocket } from "../../hooks/index.js";
 
-const Rename = (props) => {
-  const { onHide, modalInfo } = props;
-  const { item } = modalInfo;
-  const f = useFormik({ onSubmit: generateOnSubmit(props), initialValues: item });
+const Rename = ({ onHide, modalInfo }) => {
+  const { name, id } = modalInfo.channelInfo;
+  const { setNewChannelName } = useSocket();
+
+  const channels = useSelector((state) => Object.values(state.channels.entities));
+  const channelNames = channels.map((channel) => channel.name);
+
   const inputRef = useRef();
   useEffect(() => {
     inputRef.current.select();
   }, []);
 
+  const schema = yup.object({
+    name: yup.string().required().min(3).max(20).notOneOf(channelNames),
+  });
+
+  const formik = useFormik({
+    initialValues: { name },
+    validationSchema: schema,
+    onSubmit: ({ name }) => {
+        setNewChannelName({ name, id }, () => {
+          formik.resetForm();
+          onHide();
+        });
+      },
+    validateOnChange: false,
+    validateOnBlur: false,
+  })
+
   return (
-    <Modal show>
+    <Modal aria-labelledby="contained-modal-title-vcenter" show centered>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>Rename</Modal.Title>
+        <Modal.Title id="contained-modal-title-vcenter">Переименовать канал</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        <form onSubmit={f.handleSubmit}>
-          <FormGroup>
-            <FormControl
+        <Form onSubmit={formik.handleSubmit}>
+          <Form.Group as={InputGroup} className="mb-3 modal-input-block">
+            <Form.Control
               required
               ref={inputRef}
-              onChange={f.handleChange}
-              onBlur={f.handleBlur}
-              value={f.values.body}
-              data-testid="input-body"
-              name="body"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.name}
+              isInvalid={!!formik.errors.name}
+              type="text"
+              id="name"
             />
-          </FormGroup>
-          <input type="submit" className="btn btn-primary mt-2" value="submit" />
-        </form>
+            <Form.Label
+              htmlFor="name"
+              className="visually-hidden"
+            >
+              Имя канала
+            </Form.Label>
+            <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
+          </Form.Group>
+          <div className="d-flex justify-content-end">
+              <Button variant="secondary" type="button" className="me-2" onClick={onHide}>Отменить</Button>
+              <Button variant="primary" type="submit" disabled={formik.isSubmitting}>Отправить</Button>
+          </div>
+        </Form>
       </Modal.Body>
     </Modal>
   );
