@@ -79,6 +79,7 @@ const Login = () => {
                   </Col>
                   <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
                     <h1 className="text-center mb-4">Войти</h1>
+
                     <Form.Group className="form-floating mb-3">
                       <Form.Control
                         onChange={formik.handleChange}
@@ -93,6 +94,7 @@ const Login = () => {
                       />
                       <Form.Label htmlFor="username">Ваш ник</Form.Label>
                     </Form.Group>
+
                     <Form.Group className="form-floating mb-4">
                       <Form.Control
                         type="password"
@@ -106,12 +108,13 @@ const Login = () => {
                         placeholder="Пароль"
                       />
                       <Form.Label htmlFor="password">Пароль</Form.Label>
-                      {authFailed && <Form.Control.Feedback type="invalid" tooltip>Неверные имя пользователя или пароль</Form.Control.Feedback>}
+                      <Form.Control.Feedback type="invalid" tooltip>Неверные имя пользователя или пароль</Form.Control.Feedback>
                     </Form.Group>
+
                     <Button type="submit" variant="outline-primary" className="w-100 mb-3">Войти</Button>
                   </Form>
-
                 </Card.Body>
+
                 <Card.Footer className="p-4">
                     <div className="text-center">
                         <span>Нет аккаунта?</span>
@@ -119,6 +122,7 @@ const Login = () => {
                         <Link to={routes.signupPagePath()}>Регистрация</Link>
                     </div>
                 </Card.Footer>
+  
               </Card>
             </Col>
           </Row>
