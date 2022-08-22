@@ -16,7 +16,7 @@ const Header = () => {
     <BootstrapNavbar bg="white" expand="lg" className="shadow-sm">
       <Container>
         <BootstrapNavbar.Brand as={Link} to="/">Hexlet Chat</BootstrapNavbar.Brand>
-        {loggedIn && <Button onClick={logOut}>logout</Button>}
+        {loggedIn && <Button onClick={logOut}>Выйти</Button>}
       </Container>
     </BootstrapNavbar>
   );
