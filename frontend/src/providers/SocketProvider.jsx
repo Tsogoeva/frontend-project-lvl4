@@ -7,6 +7,7 @@ import {
     removeChannel,
     renameChannel,
     setCurrentChannelId,
+    setDefaultChannelId,
 } from "../slices/channelsSlice.js";
 import { addMessage } from "../slices/messagesSlice.js";
 import { SocketContext } from "../contexts/index.js";
@@ -20,6 +21,7 @@ const SocketProvider = ({ children }) => {
     
     socket.on('newChannel', (payload) => {
         store.dispatch(addChannel(payload));
+        store.dispatch(setCurrentChannelId(payload.id));
     });
 
     socket.on('renameChannel', ({ id, name }) => {
@@ -28,16 +30,13 @@ const SocketProvider = ({ children }) => {
     
     socket.on('removeChannel', ({ id }) => {
         store.dispatch(removeChannel(id));
-        store.dispatch(setCurrentChannelId(id));
+        store.dispatch(setDefaultChannelId());
     });
 
-    const sendMessage = (data) => socket.emit('newMessage', data);
+    const sendMessage = (data, callback) => socket.emit('newMessage', data, callback);
 
     const addNewChannel = (name, callback) => {
-        socket.emit('newChannel', { name }, ({ data }) => {
-          store.dispatch(setCurrentChannelId(data.id));
-          callback();
-        });
+        socket.emit('newChannel', { name }, callback);
     };
     
     const deleteChannel = (id, callback) => {
