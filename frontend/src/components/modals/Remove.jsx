@@ -1,28 +1,28 @@
-import React from 'react';
-import { Modal, FormGroup } from 'react-bootstrap';
+import React from "react";
+import { Modal, Button } from "react-bootstrap";
 
-const generateOnSubmit = ({ modalInfo, setItems, onHide }) => (e) => {
-  e.preventDefault();
-  setItems((items) => items.filter((i) => i.id !== modalInfo.item.id));
-  onHide();
-};
+import { useSocket } from "../../hooks/index.js";
 
-const Remove = (props) => {
-  const { onHide } = props;
-  const onSubmit = generateOnSubmit(props);
+const Remove = ({ onHide, modalInfo }) => {
+  const { id } = modalInfo.channelInfo;
+  const { deleteChannel } = useSocket();
+
+  const handleClick = () => {
+    deleteChannel(id, onHide);
+  }
 
   return (
-    <Modal show>
+    <Modal aria-labelledby="contained-modal-title-vcenter" show centered>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>Remove</Modal.Title>
+        <Modal.Title id="contained-modal-title-vcenter">Удалить канал</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        <form onSubmit={onSubmit}>
-          <FormGroup>
-            <input type="submit" className="btn btn-danger mt-2" value="remove" />
-          </FormGroup>
-        </form>
+        <p className="lead">Уверены?</p>
+        <div className="d-flex justify-content-end">
+          <Button variant="secondary" type="button" className="me-2" onClick={onHide}>Отменить</Button>
+          <Button variant="danger" type="submit" onClick={handleClick}>Удалить</Button>
+        </div>
       </Modal.Body>
     </Modal>
   );
