@@ -31,21 +31,25 @@ const App = () => (
   <Provider store={store}>
     <AuthProvider>
       <Router>
-        <div className="d-flex flex-column vh-100">
-        <Header />
-          <Routes>
-            <Route path={routes.signupPagePath()} element={<SignUp />} />
-            <Route path={routes.loginPagePath()} element={<Login />} />
-            <Route path={routes.chatPagePath()} element={(
-              <ChatRoute>
-                <SocketProvider>
-                  <Chat />
-                </SocketProvider>
-              </ChatRoute>
-              )}
-              />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+        <div className="h-100 bg-light">
+          <div className="h-100" id="chat">
+            <div className="d-flex flex-column vh-100">
+            <Header />
+              <Routes>
+                <Route path={routes.signupPagePath()} element={<SignUp />} />
+                <Route path={routes.loginPagePath()} element={<Login />} />
+                <Route path={routes.chatPagePath()} element={(
+                  <ChatRoute>
+                    <SocketProvider>
+                      <Chat />
+                    </SocketProvider>
+                  </ChatRoute>
+                  )}
+                  />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
+          </div>
         </div>
         <Toaster />
       </Router>
