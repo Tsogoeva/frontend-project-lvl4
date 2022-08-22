@@ -20,13 +20,12 @@ const ChatMessageField = () => {
         initialValues: {
             body: '',
         },
-        onSubmit: (values) => {
-            formik.resetForm();
+        onSubmit: ({ body }) => {
             sendMessage({
-                body: values.body,
+                body,
                 username,
                 channelId: currentChannelId,
-            });
+            }, formik.resetForm);
         },
     });
 
