@@ -7,10 +7,11 @@ import {
     Col,
     Card,
 } from "react-bootstrap";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
 import axios from "axios";
 
 import picture from "../assets/greetingPicture.jpg";
@@ -19,11 +20,13 @@ import routes from "../routes.js";
 
 const Login = () => {
     const auth = useAuth();
-    const [authFailed, setAuthFailed] = useState(false);
-    const inputRef = useRef();
     const location = useLocation();
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
+    const [authFailed, setAuthFailed] = useState(false);
+    
+    const inputRef = useRef();
     useEffect(() => {
         inputRef.current.focus();
     }, []);
@@ -41,7 +44,6 @@ const Login = () => {
         validationSchema,
         onSubmit: async (values) => {
             setAuthFailed(false);
-           // console.log(values)
 
             try {
                 const response = await axios.post(routes.loginPath(), values);
@@ -49,16 +51,20 @@ const Login = () => {
                 const { from } = location.state || { from: { pathname: '/' } };
                 navigate(from);
               } catch (error) {
-                console.log({ error })
-                if (error.isAxiosError && error.response.status === 401) {
+                if (error.response.status === 401) {
                   setAuthFailed(true);
                   inputRef.current.select();
                   return;
                 }
-                if (error.response.status === 500) {
-                  toast.error('Ошибка сети!');
+                if (error.isAxiosError && error.message === 'Network Error') {
+                  toast.error(t('notices.networkError'));
                   return;
                 }
+                if (error.response.status === 500) {
+                  toast.error(t('notices.serverError'));
+                  return;
+                }
+                toast.error(t('notices.unknownError'));
                 throw error;
               }
         },
@@ -74,11 +80,11 @@ const Login = () => {
                     <img
                     src={picture}
                     className="rounded-circle"
-                    alt="Войти"
+                    alt={t('login.header')}
                     />
                   </Col>
                   <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
-                    <h1 className="text-center mb-4">Войти</h1>
+                    <h1 className="text-center mb-4">{t('login.header')}</h1>
 
                     <Form.Group className="form-floating mb-3">
                       <Form.Control
@@ -90,9 +96,9 @@ const Login = () => {
                         isInvalid={authFailed}
                         required
                         ref={inputRef}
-                        placeholder="Ваш ник"
+                        placeholder={t('login.username')}
                       />
-                      <Form.Label htmlFor="username">Ваш ник</Form.Label>
+                      <Form.Label htmlFor="username">{t('login.username')}</Form.Label>
                     </Form.Group>
 
                     <Form.Group className="form-floating mb-4">
@@ -105,21 +111,20 @@ const Login = () => {
                         autoComplete="current-password"
                         isInvalid={authFailed}
                         required
-                        placeholder="Пароль"
+                        placeholder={t('login.password')}
                       />
-                      <Form.Label htmlFor="password">Пароль</Form.Label>
-                      <Form.Control.Feedback type="invalid" tooltip>Неверные имя пользователя или пароль</Form.Control.Feedback>
+                      <Form.Label htmlFor="password">{t('login.password')}</Form.Label>
+                      <Form.Control.Feedback type="invalid" tooltip>{t('feedback.incorrectLoginOrPassword')}</Form.Control.Feedback>
                     </Form.Group>
 
-                    <Button type="submit" variant="outline-primary" className="w-100 mb-3">Войти</Button>
+                    <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('login.submit')}</Button>
                   </Form>
                 </Card.Body>
 
                 <Card.Footer className="p-4">
                     <div className="text-center">
-                        <span>Нет аккаунта?</span>
-                        {' '}
-                        <Link to={routes.signupPagePath()}>Регистрация</Link>
+                        <span>{t('login.footerText')}</span>
+                        <Link to={routes.signupPagePath()}>{t('login.footerLink')}</Link>
                     </div>
                 </Card.Footer>
   
