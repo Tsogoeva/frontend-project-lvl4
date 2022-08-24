@@ -1,17 +1,22 @@
 import React from "react";
-//import picture from "../assets/notFoundPicture.svg";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import routes from "../routes.js";
+
+import picture from "../assets/notFoundPicture.svg";
 
 const NotFoundPage = () => {
+    const { t } = useTranslation('translation', { keyPrefix: 'notFound' });
+
     return (
         <div className="text-center">
-            <img alt="Страница не найдена" className="img-fluid h-25" src="https://cdn2.hexlet.io/assets/error-pages/404-4b6ef16aba4c494d8101c104236304e640683fa9abdb3dd7a46cab7ad05d46e9.svg" />
+            <img alt={t('pageNotFoundAlt')} className="img-fluid h-25" src={picture} />
             <h1 className="h4 text-muted">
-                Страница не найдена
+              {t('pageNotFound')}
             </h1>
             <p className="text-muted">
-                Но вы можете перейти
-                {' '}
-                <a href="/">на главную страницу</a>
+              {t('textToLink')}
+              <Link to={routes.chatPagePath()}>{t('link')}</Link>
             </p>
         </div>
     );
