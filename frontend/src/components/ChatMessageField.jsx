@@ -1,17 +1,21 @@
 import React, { useRef, useEffect } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import { ArrowRightSquare } from "react-bootstrap-icons";
-import { useFormik } from "formik";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
+
+import { useFormik } from "formik";
 import { useSocket } from "../hooks/index.js";
 
 const ChatMessageField = () => {
     const currentChannelId = useSelector((state) => state.channels.currentChannelId);
     const username = JSON.parse(localStorage.getItem('userId')).username;
 
-    const { sendMessage } = useSocket();
-    const inputRef = useRef(null);
+    const { t } = useTranslation('translation', { keyPrefix: 'chat.messageField' });
 
+    const { sendMessage } = useSocket();
+    
+    const inputRef = useRef(null);
     useEffect(() => {
         inputRef.current.focus();
     });
@@ -41,9 +45,9 @@ const ChatMessageField = () => {
                         type="text"
                         ref={inputRef}
                         className="border-0 p-0 ps-2"
-                        placeholder="Введите сообщение..."
+                        placeholder={t('placeholder')}
                     />
-                    <Form.Label htmlFor="body" className="visually-hidden">Новое сообщение</Form.Label>
+                    <Form.Label htmlFor="body" className="visually-hidden">{t('newMessage')}</Form.Label>
                     <Button
                         type="submit"
                         variant="link"
@@ -51,7 +55,7 @@ const ChatMessageField = () => {
                         disabled={formik.values.body.length === 0}
                     >
                     <ArrowRightSquare size={20} />
-                    <span className="visually-hidden">Отправить</span>
+                    <span className="visually-hidden">{t('submit')}</span>
                     </Button>
                 </Form.Group>
               </Form>
