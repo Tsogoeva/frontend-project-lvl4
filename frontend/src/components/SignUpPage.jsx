@@ -8,6 +8,7 @@ import {
     Card,
 } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 import { useFormik } from "formik";
@@ -21,18 +22,34 @@ import routes from "../routes.js";
 
 const SignUp = () => {
     const auth = useAuth();
-    const [feedback, setFeedback] = useState({ required: 'Обязательное поле', exist: '' });
+    const [validateValues, setValidateValues] = useState(true);
     const inputRef = useRef();
     const location = useLocation();
     const navigate = useNavigate();
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         inputRef.current.focus();
     }, []);
 
+    yup.setLocale({
+        mixed: {
+          required: t('feedback.required'),
+          oneOf: t('feedback.passwordMatch'),
+        },
+      });
+
     const validationSchema = yup.object().shape({
-        username: yup.string().required().min(3).max(20),
-        password: yup.string().required().min(6),
+        username: yup
+            .string()
+            .required()
+            .min(3, t('feedback.usernameLength', { min: 3, max: 20 }))
+            .max(20, t('feedback.usernameLength', { min: 3, max: 20 })),
+        password: yup
+            .string()
+            .required()
+            .min(6, t('feedback.passwordLength', { min: 6 })),
         confirmPassword: yup.string().required().oneOf([yup.ref('password')]),
     });
 
@@ -46,17 +63,22 @@ const SignUp = () => {
         onSubmit: async ({ username, password }) => {
             try {
                 const response = await axios.post(routes.signupPath(), { username, password });
+                setValidateValues(true)
                 auth.logIn(response.data);
                 const { from } = location.state || { from: { pathname: '/' } };
                 navigate(from);
             } catch (error) {
-                if (error.isAxiosError && error.response.status === 409) {
-                    setFeedback({ required: '', exist: 'Такой пользователь уже существует' });
+                if (error.response.status === 409) {
+                    toast.error(t('notices.userExists'));
+                    setValidateValues(false);
                     inputRef.current.select();
-                } if (error.response.status === 500) {
-                    toast.error('Ошибка сети!');
                     return;
                 }
+                if (error.response.status === 500) {
+                    toast.error(t('notices.serverError'));
+                    return;
+                }
+                toast.error(t('notices.unknownError'));
                 throw error;
             }
         },
@@ -73,7 +95,7 @@ const SignUp = () => {
                     <img src={picture} className="rounded-circle" alt="Регистрация" />
                   </Col>
                   <Form onSubmit={formik.handleSubmit} className="w-50">
-                    <h1 className="text-center mb-4">Регистрация</h1>
+                    <h1 className="text-center mb-4">{t('signUp.header')}</h1>
 
                     <Form.Group className="form-floating mb-3">
                       <Form.Control
@@ -83,13 +105,12 @@ const SignUp = () => {
                         name="username"
                         id="username"
                         autoComplete="username"
-                        isInvalid={(formik.errors.username && formik.touched.username) || feedback.exist}
-                        required
+                        isInvalid={(formik.errors.username && formik.touched.username) || !validateValues}
                         ref={inputRef}
-                        placeholder="От 3 до 20 символов"
+                        placeholder={t('feedback.usernameLength', { min: 3, max: 20 })}
                       />
-                      <Form.Label htmlFor="username">Имя пользователя</Form.Label>
-                      <Form.Control.Feedback placement="right" type="invalid" tooltip>{feedback.required}</Form.Control.Feedback>
+                      <Form.Label htmlFor="username">{t('signUp.username')}</Form.Label>
+                      <Form.Control.Feedback placement="right" type="invalid" tooltip>{formik.errors.username}</Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="form-floating mb-3">
@@ -101,13 +122,12 @@ const SignUp = () => {
                         id="password"
                         type="password"
                         autoComplete="new-password"
-                        isInvalid={(formik.errors.password && formik.touched.password) || feedback.exist}
-                        required
-                        placeholder="Не менее 6 символов"
+                        isInvalid={(formik.errors.password && formik.touched.password) || !validateValues}
+                        placeholder={t('feedback.passwordLength', { min: 6 })}
                         aria-describedby="passwordHelpBlock"
                       />
-                      <Form.Control.Feedback type="invalid" tooltip>{feedback.required}</Form.Control.Feedback>
-                      <Form.Label htmlFor="password">Пароль</Form.Label>
+                      <Form.Control.Feedback type="invalid" tooltip>{formik.errors.password}</Form.Control.Feedback>
+                      <Form.Label htmlFor="password">{t('signUp.password')}</Form.Label>
                     </Form.Group>
 
                     <Form.Group className="form-floating mb-4">
@@ -119,14 +139,13 @@ const SignUp = () => {
                         id="confirmPassword"
                         type="password"
                         autoComplete="new-password"
-                        isInvalid={feedback.exist}
-                        required
-                        placeholder="Пароли должны совпадать"
+                        isInvalid={(formik.errors.confirmPassword && formik.touched.confirmPassword) || !validateValues}
+                        placeholder={t('feedback.passwordMatch')}
                       />
-                      <Form.Control.Feedback type="invalid" tooltip>{feedback.exist}</Form.Control.Feedback>
-                      <Form.Label htmlFor="confirmPassword">Подтвердите пароль</Form.Label>
+                      <Form.Control.Feedback type="invalid" tooltip>{formik.errors.confirmPassword}</Form.Control.Feedback>
+                      <Form.Label htmlFor="confirmPassword">{t('signUp.confirmPassword')}</Form.Label>
                     </Form.Group>
-                    <Button type="submit" variant="outline-primary" className="w-100">Зарегистрироваться</Button>
+                    <Button type="submit" variant="outline-primary" className="w-100">{t('signUp.submit')}</Button>
                   </Form>
                 </Card.Body>
               </Card>
