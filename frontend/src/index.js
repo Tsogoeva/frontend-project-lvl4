@@ -1,19 +1,23 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-//import "bootstrap/dist/js/bootstrap.bundle.min";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 
 import React from "react";
 import ReactDOM from "react-dom/client";
-//import './index.css';
-import App from './App.jsx';
-//import initialization from "./init.js";
+import init from "./init.js";
 import reportWebVitals from "./reportWebVitals";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const runApp = async () => {
+  const vdom = await init();
+
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(
+    <React.StrictMode>
+      {vdom}
+    </React.StrictMode>
+  );
+};
+
+runApp();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
