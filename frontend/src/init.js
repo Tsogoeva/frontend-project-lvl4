@@ -1,23 +1,93 @@
-/* import React from "react";
+import React from "react";
+import i18n from "i18next";
+import { initReactI18next, I18nextProvider } from "react-i18next";
+import { Provider } from "react-redux";
+import { io } from "socket.io-client";
+import filter from "leo-profanity";
+
+import store from "./slices/index.js";
+import {
+    addChannel,
+    removeChannel,
+    renameChannel,
+    setCurrentChannelId,
+    setDefaultChannelId,
+} from "./slices/channelsSlice.js";
+import { addMessage } from "./slices/messagesSlice.js";
+import { SocketContext } from "./contexts/index.js";
+import ru from "./locales/ru.js"
+
 import App from "./App.jsx";
 
-const initialization = () => {
+const SocketProvider = ({ children }) => {
+    const socket = io();
 
-    i18n
-    .use(initReactI18next)
-    .init({
-      resources,
-      lng: 'ru',
-      interpolation: {
-        escapeValue: false,
-      },
+    socket.on('newMessage', (payload) => {
+        store.dispatch(addMessage(payload));
+    });
+    
+    socket.on('newChannel', (payload) => {
+        store.dispatch(addChannel(payload));
+        store.dispatch(setCurrentChannelId(payload.id));
     });
 
-  return (
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  )
-}
+    socket.on('renameChannel', ({ id, name }) => {
+        store.dispatch(renameChannel({ id, changes: { name } }));
+    });
+    
+    socket.on('removeChannel', ({ id }) => {
+        store.dispatch(removeChannel(id));
+        store.dispatch(setDefaultChannelId());
+    });
 
-export default initialization; */
+    const sendMessage = (data, callback) => socket.emit('newMessage', data, callback);
+
+    const addNewChannel = (name, callback) => {
+        socket.emit('newChannel', { name }, callback);
+    };
+    
+    const deleteChannel = (id, callback) => {
+        socket.emit('removeChannel', { id }, callback);
+    };
+    
+    const setNewChannelName = ({ id, name }, callback) => {
+        socket.emit('renameChannel', { id, name }, callback);
+    };
+
+    return (
+        <SocketContext.Provider value={{ sendMessage, addNewChannel, deleteChannel, setNewChannelName }}>
+          {children}
+        </SocketContext.Provider>
+      );
+};
+
+const init = async () => {
+    await i18n
+      .use(initReactI18next)
+      .init({
+          lng: 'ru',
+          fallbackLng: 'ru',
+          debug: false,
+          resources: {
+            ru,
+          },
+          interpolation: {
+            escapeValue: false,
+          },
+    });
+
+    filter.add(filter.getDictionary('ru'))
+
+
+    return (
+        <I18nextProvider i18n={i18n}>
+          <Provider store={store}>
+            <SocketProvider>
+              <App />
+            </SocketProvider>
+          </Provider>
+        </I18nextProvider>
+    );
+};
+
+export default init;
