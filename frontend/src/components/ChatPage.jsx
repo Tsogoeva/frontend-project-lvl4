@@ -7,11 +7,12 @@ import {
 } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 import routes from "../routes.js";
 import { useAuth } from "../hooks/index.js";
-// import { useTranslation } from 'react-i18next';
 import { addChannels, setCurrentChannelId } from "../slices/channelsSlice.js";
 import { addMessages } from "../slices/messagesSlice.js";
 import getModal from "./modals/index.js";
@@ -31,6 +32,7 @@ const renderModal = ({ modalInfo, hideModal }) => {
 };
 
 const Chat = () => {
+  const { t } = useTranslation();
   const { getAuthHeader } = useAuth();
   const dispatch = useDispatch();
 
@@ -40,7 +42,6 @@ const Chat = () => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
-       // console.log(data)
         const {
           currentChannelId,
           channels,
@@ -53,12 +54,12 @@ const Chat = () => {
 
         setLoadedData(true);
       } catch (error) {
-        console.log(error);
+        toast.error(t('notices.loadedDataError'));
       }
     };
 
     fetchData();
-  }, [dispatch, getAuthHeader]);
+  }, [dispatch, getAuthHeader, t]);
 
   const [modalInfo, setModalInfo] = useState({ type: null, channelInfo: null });
   const hideModal = () => setModalInfo({ type: null, channelInfo: null });
