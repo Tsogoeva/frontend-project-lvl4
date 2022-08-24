@@ -4,19 +4,20 @@ import {
     Button,
     Navbar as BootstrapNavbar,
 } from "react-bootstrap";
-// import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { useAuth } from "../hooks/index.js";
 
 const Header = () => {
   const { logOut, loggedIn } = useAuth();
- // const { t } = useTranslation();
+  const { t } = useTranslation('translation', { keyPrefix: 'header' });
+
   return (
     <BootstrapNavbar bg="white" expand="lg" className="shadow-sm">
       <Container>
-        <BootstrapNavbar.Brand as={Link} to="/">Hexlet Chat</BootstrapNavbar.Brand>
-        {loggedIn && <Button onClick={logOut}>Выйти</Button>}
+        <BootstrapNavbar.Brand as={Link} to="/">{t('appName')}</BootstrapNavbar.Brand>
+        {loggedIn && <Button onClick={logOut}>{t('logOut')}</Button>}
       </Container>
     </BootstrapNavbar>
   );
