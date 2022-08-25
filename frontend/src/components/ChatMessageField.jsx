@@ -43,6 +43,7 @@ const ChatMessageField = () => {
                         name="body"
                         id="body"
                         type="text"
+                        aria-label={t('newMessage')}
                         ref={inputRef}
                         className="border-0 p-0 ps-2"
                         placeholder={t('placeholder')}
