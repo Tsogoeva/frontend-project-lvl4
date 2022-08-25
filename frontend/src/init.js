@@ -80,15 +80,16 @@ const init = async () => {
     filter.add(filter.getDictionary('ru'));
 
     const rollbarConfig = {
-        accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+        accessToken: '810726b750ca40b2b8230be3727ba8e4',
         environment: process.env.NODE_ENV,
         captureUncaught: true,
         captureUnhandledRejections: true,
       };
 
+
     return (
         <RollbarProvider config={rollbarConfig}>
-          <ErrorBoundary>
+          <ErrorBoundary errorMessage="Error in React render">
             <I18nextProvider i18n={i18n}>
               <StoreProvider store={store}>
                 <SocketProvider>
