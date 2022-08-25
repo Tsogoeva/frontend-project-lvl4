@@ -9,6 +9,7 @@ import {
 } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useRollbar } from '@rollbar/react';
 import { toast } from "react-toastify";
 
 import { useFormik } from "formik";
@@ -26,8 +27,8 @@ const SignUp = () => {
     const inputRef = useRef();
     const location = useLocation();
     const navigate = useNavigate();
-
     const { t } = useTranslation();
+    const rollbar = useRollbar();
 
     useEffect(() => {
         inputRef.current.focus();
@@ -70,16 +71,19 @@ const SignUp = () => {
             } catch (error) {
                 if (error.response.status === 409) {
                     toast.error(t('notices.userExists'));
+                    rollbar.error(t('notices.userExists'), error, { username, password });
                     setValidateValues(false);
                     inputRef.current.select();
                     return;
                 }
                 if (error.response.status === 500) {
                     toast.error(t('notices.serverError'));
+                    rollbar.error(t('notices.serverError'), error, { username, password });
                     return;
                 }
                 toast.error(t('notices.unknownError'));
-                throw error;
+                rollbar.error(t('notices.unknownError'), error, { username, password });
+                throw new Error(error);
             }
         },
         validateOnChange: false,

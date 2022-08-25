@@ -9,6 +9,7 @@ import {
 } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useRollbar } from '@rollbar/react';
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -23,6 +24,7 @@ const Login = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const rollbar = useRollbar();
 
     const [authFailed, setAuthFailed] = useState(false);
     
@@ -58,14 +60,17 @@ const Login = () => {
                 }
                 if (error.isAxiosError && error.message === 'Network Error') {
                   toast.error(t('notices.networkError'));
+                  rollbar.error(t('notices.networkError'), error, { values });
                   return;
                 }
                 if (error.response.status === 500) {
                   toast.error(t('notices.serverError'));
+                  rollbar.error(t('notices.serverError'), error, { values });
                   return;
                 }
                 toast.error(t('notices.unknownError'));
-                throw error;
+                rollbar.error(t('notices.unknownError'), error, { values });
+                throw new Error(error);
               }
         },
     });

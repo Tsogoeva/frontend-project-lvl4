@@ -8,6 +8,7 @@ import {
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { useRollbar } from '@rollbar/react';
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -35,6 +36,7 @@ const Chat = () => {
   const { t } = useTranslation();
   const { getAuthHeader } = useAuth();
   const dispatch = useDispatch();
+  const rollbar = useRollbar();
 
   const [loadedData, setLoadedData] = useState(false);
 
@@ -54,12 +56,13 @@ const Chat = () => {
 
         setLoadedData(true);
       } catch (error) {
-        toast.error(t('notices.loadedDataError'));
+        toast.warn(t('notices.loadedDataError'));
+        rollbar.error(t('notices.loadedDataError'), error);
       }
     };
 
     fetchData();
-  }, [dispatch, getAuthHeader, t]);
+  }, [dispatch, getAuthHeader, t, rollbar]);
 
   const [modalInfo, setModalInfo] = useState({ type: null, channelInfo: null });
   const hideModal = () => setModalInfo({ type: null, channelInfo: null });
