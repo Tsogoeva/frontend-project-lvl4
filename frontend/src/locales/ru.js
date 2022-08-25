@@ -80,7 +80,7 @@ export default {
             loadedDataError: 'Oшибка с загрузкой данных. Обновите страницу',
             userExists: 'Такой пользователь уже существует',
             addNewChannel: 'Канал создан',
-            removeChannel: 'Канал удален',
+            removeChannel: 'Канал удалён',
             renameChannel: 'Канал переименован',
         },
     },
