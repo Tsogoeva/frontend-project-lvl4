@@ -81,7 +81,9 @@ const init = async () => {
 
     const rollbarConfig = {
         accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
-        environment: 'production',
+        environment: process.env.NODE_ENV,
+        captureUncaught: true,
+        captureUnhandledRejections: true,
       };
 
     return (
