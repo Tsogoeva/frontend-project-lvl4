@@ -1,1 +1,1 @@
-web: npm build
+web: npm build && cd frontend && npm build && cd ..
