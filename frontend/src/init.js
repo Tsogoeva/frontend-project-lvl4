@@ -80,7 +80,7 @@ const init = async () => {
     filter.add(filter.getDictionary('ru'));
 
     const rollbarConfig = {
-        accessToken: '810726b750ca40b2b8230be3727ba8e4',
+        accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
         environment: process.env.NODE_ENV,
         captureUncaught: true,
         captureUnhandledRejections: true,
