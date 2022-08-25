@@ -81,6 +81,10 @@ const SignUp = () => {
                     rollbar.error(t('notices.serverError'), error, { username, password });
                     return;
                 }
+                if (error.isAxiosError && error.message === 'Network Error') {
+                    toast.error(t('notices.networkError'));
+                    return;
+                }
                 toast.error(t('notices.unknownError'));
                 rollbar.error(t('notices.unknownError'), error, { username, password });
                 throw new Error(error);

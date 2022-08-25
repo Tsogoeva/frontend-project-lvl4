@@ -14,7 +14,7 @@ const ChatMessageField = () => {
     const { t } = useTranslation('translation', { keyPrefix: 'chat.messageField' });
 
     const { sendMessage } = useSocket();
-    
+
     const inputRef = useRef(null);
     useEffect(() => {
         inputRef.current.focus();

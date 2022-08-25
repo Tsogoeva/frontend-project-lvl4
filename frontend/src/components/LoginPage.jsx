@@ -60,7 +60,6 @@ const Login = () => {
                 }
                 if (error.isAxiosError && error.message === 'Network Error') {
                   toast.error(t('notices.networkError'));
-                  rollbar.error(t('notices.networkError'), error, { values });
                   return;
                 }
                 if (error.response.status === 500) {
