@@ -1,1 +1,1 @@
-web: npm build && cd frontend && npm install && cd ..
+web: npm install --only=dev && npm install && npm run build
