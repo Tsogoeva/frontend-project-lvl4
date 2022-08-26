@@ -1,0 +1,22 @@
+env:
+  browser: true
+  es2021: true
+extends:
+  - plugin:react/recommended
+  - airbnb
+overrides: []
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: latest
+  sourceType: module
+plugins:
+  - react
+  - react-hooks
+rules: 
+  no-console: 0
+  import/extensions: 0
+  no-param-reassign: 0
+  react/function-component-definition: [2, { "namedComponents": "arrow-function" }]
+  react/no-unstable-nested-components: "off"
+  # react/prop-types: [<enabled>, { ignore: <ignore> }]

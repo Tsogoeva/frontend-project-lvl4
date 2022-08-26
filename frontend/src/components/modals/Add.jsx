@@ -1,20 +1,20 @@
-import React, { useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import { Modal, Form, Button } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
+import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { Modal, Form, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
-import { useFormik } from "formik";
-import * as yup from "yup";
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 
-import { useSocket } from "../../hooks/index.js";
+import { useSocket } from '../../hooks/index.js';
 
 const Add = ({ onHide }) => {
   const { t } = useTranslation();
 
   const channels = useSelector((state) => Object.values(state.channels.entities));
   const channelNames = channels.map((channel) => channel.name);
-  
+
   const inputRef = useRef(null);
   useEffect(() => {
     inputRef.current.focus();
@@ -35,15 +35,15 @@ const Add = ({ onHide }) => {
     initialValues: { name: '' },
     validationSchema: schema,
     onSubmit: ({ name }) => {
-        addNewChannel(name, () => {
-          formik.resetForm();
-          onHide();
-          toast.success(t('notices.addNewChannel'));
-        });
-      },
+      addNewChannel(name, () => {
+        formik.resetForm();
+        onHide();
+        toast.success(t('notices.addNewChannel'));
+      });
+    },
     validateOnChange: false,
     validateOnBlur: false,
-    });
+  });
 
   return (
     <Modal show centered onHide={onHide}>
@@ -72,8 +72,8 @@ const Add = ({ onHide }) => {
             </Form.Label>
             <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
             <div className="d-flex justify-content-end">
-                <Button variant="secondary" type="button" className="me-2" onClick={onHide}>{t('modals.add.cancel')}</Button>
-                <Button variant="primary" type="submit" disabled={formik.isSubmitting}>{t('modals.add.submit')}</Button>
+              <Button variant="secondary" type="button" className="me-2" onClick={onHide}>{t('modals.add.cancel')}</Button>
+              <Button variant="primary" type="submit" disabled={formik.isSubmitting}>{t('modals.add.submit')}</Button>
             </div>
           </Form.Group>
         </Form>

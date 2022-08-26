@@ -1,27 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Row,
   Col,
   Spinner,
-} from "react-bootstrap";
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useTranslation } from "react-i18next";
+} from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { useRollbar } from '@rollbar/react';
-import { toast } from "react-toastify";
-import axios from "axios";
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
-import routes from "../routes.js";
-import { useAuth } from "../hooks/index.js";
-import { addChannels, setCurrentChannelId } from "../slices/channelsSlice.js";
-import { addMessages } from "../slices/messagesSlice.js";
-import getModal from "./modals/index.js";
+import routes from '../routes.js';
+import { useAuth } from '../hooks/index.js';
+import { addChannels, setCurrentChannelId } from '../slices/channelsSlice.js';
+import { addMessages } from '../slices/messagesSlice.js';
+import getModal from './modals/index.js';
 
-import ChatChannelsList from "./ChatChannelsList.jsx";
-import ChatHeader from "./ChatHeader.jsx";
-import ChatMessagesBox from "./ChatMessagesBox.jsx";
-import ChatMessageField from "./ChatMessageField.jsx";
+import ChatChannelsList from './ChatChannelsList.jsx';
+import ChatHeader from './ChatHeader.jsx';
+import ChatMessagesBox from './ChatMessagesBox.jsx';
+import ChatMessageField from './ChatMessageField.jsx';
 
 const renderModal = ({ modalInfo, hideModal }) => {
   if (!modalInfo.type) {
@@ -71,7 +70,7 @@ const Chat = () => {
   const ChatComponents = () => (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">
       <Row className="h-100 bg-white flex-md-row">
-           
+
         <ChatChannelsList showModal={showModal} />
 
         <Col className="p-0 h-100">
@@ -91,9 +90,9 @@ const Chat = () => {
 
   return loadedData ? <ChatComponents />
     : (
-    <div className="d-flex align-items-center justify-content-center h-100 centered">
-      <Spinner animation="border" variant="primary" />
-    </div>
+      <div className="d-flex align-items-center justify-content-center h-100 centered">
+        <Spinner animation="border" variant="primary" />
+      </div>
     );
 };
 

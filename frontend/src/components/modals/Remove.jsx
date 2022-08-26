@@ -1,9 +1,9 @@
-import React from "react";
-import { Modal, Button } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
+import React from 'react';
+import { Modal, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
-import { useSocket } from "../../hooks/index.js";
+import { useSocket } from '../../hooks/index.js';
 
 const Remove = ({ onHide, modalInfo }) => {
   const { t } = useTranslation();
@@ -14,7 +14,7 @@ const Remove = ({ onHide, modalInfo }) => {
   const handleClick = () => {
     deleteChannel(id, onHide);
     toast.success(t('notices.removeChannel'));
-  }
+  };
 
   return (
     <Modal show centered onHide={onHide}>

@@ -1,7 +1,7 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { useTranslation } from "react-i18next";
-import filter from "leo-profanity";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 
 const ChatHeader = () => {
   const { t } = useTranslation('translation', { keyPrefix: 'chat.header' });
@@ -21,7 +21,7 @@ const ChatHeader = () => {
       </p>
       <span className="text-muted">{t('count', { count: messageCount })}</span>
     </div>
-  )
+  );
 };
 
 export default ChatHeader;

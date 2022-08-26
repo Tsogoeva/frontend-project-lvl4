@@ -1,8 +1,8 @@
 /* eslint import/no-anonymous-default-export: [2, {"allowArrowFunction": true}] */
 
-import Add from "./Add.jsx";
-import Remove from "./Remove.jsx";
-import Rename from "./Rename.jsx";
+import Add from './Add.jsx';
+import Remove from './Remove.jsx';
+import Rename from './Rename.jsx';
 
 const modals = {
   adding: Add,
