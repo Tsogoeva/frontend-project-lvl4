@@ -30,7 +30,12 @@ const ChatChannelsList = ({ showModal }) => {
 
       <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
         <span>{t('header')}</span>
-        <Button type="button" onClick={() => showModal('adding')} variant="group-vertical" className="p-0 text-primary">
+        <Button
+          type="button"
+          onClick={() => showModal('adding')}
+          variant="group-vertical"
+          className="p-0 text-primary"
+        >
           <PlusSquare size={20} />
           <span className="visually-hidden">+</span>
         </Button>
@@ -45,7 +50,11 @@ const ChatChannelsList = ({ showModal }) => {
             <Nav.Item key={id} className="w-100">
               <Dropdown as={ButtonGroup} className="d-flex">
 
-                <Button variant={variant} className="w-100 rounded-0 text-start text-truncate" onClick={handleClick(id)}>
+                <Button
+                  variant={variant}
+                  className="w-100 rounded-0 text-start text-truncate"
+                  onClick={handleClick(id)}
+                >
                   <span className="me-1">#</span>
                   {censoredName}
                 </Button>
@@ -55,15 +64,27 @@ const ChatChannelsList = ({ showModal }) => {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => showModal('removing', { id })}>{t('removeChannel')}</Dropdown.Item>
-                  <Dropdown.Item onClick={() => showModal('renaming', { id, name })}>{t('renameChannel')}</Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => showModal('removing', { id })}
+                  >
+                    {t('removeChannel')}
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => showModal('renaming', { id, name })}
+                  >
+                    {t('renameChannel')}
+                  </Dropdown.Item>
                 </Dropdown.Menu>
 
               </Dropdown>
             </Nav.Item>
           ) : (
             <Nav.Item key={id}>
-              <Button variant={variant} className="w-100 rounded-0 text-start" onClick={handleClick(id)}>
+              <Button
+                variant={variant}
+                className="w-100 rounded-0 text-start"
+                onClick={handleClick(id)}
+              >
                 <span className="me-1">#</span>
                 {name}
               </Button>

@@ -70,10 +70,27 @@ const Add = ({ onHide }) => {
             >
               {t('modals.add.channelName')}
             </Form.Label>
-            <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
+            <Form.Control.Feedback
+              type="invalid"
+            >
+              {formik.errors.name}
+            </Form.Control.Feedback>
             <div className="d-flex justify-content-end">
-              <Button variant="secondary" type="button" className="me-2" onClick={onHide}>{t('modals.add.cancel')}</Button>
-              <Button variant="primary" type="submit" disabled={formik.isSubmitting}>{t('modals.add.submit')}</Button>
+              <Button
+                variant="secondary"
+                type="button"
+                className="me-2"
+                onClick={onHide}
+              >
+                {t('modals.add.cancel')}
+              </Button>
+              <Button
+                variant="primary"
+                type="submit"
+                disabled={formik.isSubmitting}
+              >
+                {t('modals.add.submit')}
+              </Button>
             </div>
           </Form.Group>
         </Form>

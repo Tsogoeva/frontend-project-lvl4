@@ -50,7 +50,10 @@ const SignUp = () => {
       .string()
       .required()
       .min(6, t('feedback.passwordLength', { min: 6 })),
-    confirmPassword: yup.string().required().oneOf([yup.ref('password')]),
+    confirmPassword: yup
+      .string()
+      .required()
+      .oneOf([yup.ref('password')]),
   });
 
   const formik = useFormik({
@@ -62,7 +65,8 @@ const SignUp = () => {
     validationSchema,
     onSubmit: async ({ username, password }) => {
       try {
-        const response = await axios.post(routes.signupPath(), { username, password });
+        const response = await axios
+         .post(routes.signupPath(), { username, password });
         setValidValues(true);
         auth.logIn(response.data);
         const { from } = location.state || { from: { pathname: '/' } };
@@ -106,9 +110,15 @@ const SignUp = () => {
       <Row className="justify-content-center align-content-center h-100">
         <Col md={8} xxl={6} className="col-12">
           <Card className="shadow-sm">
-            <Card.Body className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
+            <Card.Body
+              className="d-flex flex-column flex-m d-row justify-content-around align-items-center p-5"
+            >
               <Col xs={12} md={6}>
-                <img src={picture} className="rounded-circle" alt="Регистрация" />
+                <img
+                  src={picture}
+                  className="rounded-circle"
+                  alt="Регистрация"
+                />
               </Col>
               <Form onSubmit={handleSubmit} className="w-50">
                 <h1 className="text-center mb-4">{t('signUp.header')}</h1>
@@ -126,7 +136,13 @@ const SignUp = () => {
                     placeholder={t('feedback.usernameLength', { min: 3, max: 20 })}
                   />
                   <Form.Label htmlFor="username">{t('signUp.username')}</Form.Label>
-                  <Form.Control.Feedback placement="right" type="invalid" tooltip>{errors.username}</Form.Control.Feedback>
+                  <Form.Control.Feedback
+                    placement="right"
+                    type="invalid"
+                    tooltip
+                  >
+                    {errors.username}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="form-floating mb-3">
@@ -142,7 +158,12 @@ const SignUp = () => {
                     placeholder={t('feedback.passwordLength', { min: 6 })}
                     aria-describedby="passwordHelpBlock"
                   />
-                  <Form.Control.Feedback type="invalid" tooltip>{errors.password}</Form.Control.Feedback>
+                  <Form.Control.Feedback
+                    type="invalid"
+                    tooltip
+                  >
+                    {errors.password}
+                  </Form.Control.Feedback>
                   <Form.Label htmlFor="password">{t('signUp.password')}</Form.Label>
                 </Form.Group>
 
@@ -158,10 +179,22 @@ const SignUp = () => {
                     isInvalid={(errors.confirmPassword && touched.confirmPassword) || !validValues}
                     placeholder={t('feedback.passwordMatch')}
                   />
-                  <Form.Control.Feedback type="invalid" tooltip>{formik.errors.confirmPassword}</Form.Control.Feedback>
+                  <Form.Control.Feedback
+                    type="invalid"
+                    tooltip
+                  >
+                    {formik.errors.confirmPassword}
+                  </Form.Control.Feedback>
                   <Form.Label htmlFor="confirmPassword">{t('signUp.confirmPassword')}</Form.Label>
                 </Form.Group>
-                <Button type="submit" variant="outline-primary" disabled={formik.isSubmitting} className="w-100">{t('signUp.submit')}</Button>
+                <Button
+                  type="submit"
+                  variant="outline-primary"
+                  disabled={formik.isSubmitting}
+                  className="w-100"
+                >
+                  {t('signUp.submit')}
+                </Button>
               </Form>
             </Card.Body>
           </Card>

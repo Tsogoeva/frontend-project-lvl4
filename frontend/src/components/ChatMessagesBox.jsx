@@ -15,7 +15,11 @@ const ChatMessagesBox = () => {
   });
 
   return (
-    <div id="messages-box" className="chat-messages overflow-auto px-5" ref={messagesBoxRef}>
+    <div
+      id="messages-box"
+      className="chat-messages overflow-auto px-5"
+      ref={messagesBoxRef}
+    >
       {currentChannelMessages.map(({ body, username, id }) => {
         const censoredBody = filter.clean(body);
 

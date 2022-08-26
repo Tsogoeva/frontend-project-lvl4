@@ -80,14 +80,21 @@ const Login = () => {
         <Col md={8} xxl={6} className="col-12">
           <Card className="shadow-sm">
             <Card.Body className="row p-5">
-              <Col xs={12} md={6} className="d-flex align-items-center justify-content-center">
+              <Col
+                xs={12}
+                md={6}
+                className="d-flex align-items-center justify-content-center"
+              >
                 <img
                   src={picture}
                   className="rounded-circle"
                   alt={t('login.header')}
                 />
               </Col>
-              <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
+              <Form
+                onSubmit={formik.handleSubmit}
+                className="col-12 col-md-6 mt-3 mt-mb-0"
+              >
                 <h1 className="text-center mb-4">{t('login.header')}</h1>
 
                 <Form.Group className="form-floating mb-3">
@@ -118,10 +125,22 @@ const Login = () => {
                     placeholder={t('login.password')}
                   />
                   <Form.Label htmlFor="password">{t('login.password')}</Form.Label>
-                  <Form.Control.Feedback type="invalid" tooltip>{t('feedback.incorrectLoginOrPassword')}</Form.Control.Feedback>
+                  <Form.Control.Feedback
+                    type="invalid"
+                    tooltip
+                  >
+                    {t('feedback.incorrectLoginOrPassword')}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
-                <Button type="submit" variant="outline-primary" disabled={formik.isSubmitting} className="w-100 mb-3">{t('login.submit')}</Button>
+                <Button
+                  type="submit"
+                  variant="outline-primary"
+                  disabled={formik.isSubmitting}
+                  className="w-100 mb-3"
+                >
+                  {t('login.submit')}
+                </Button>
               </Form>
             </Card.Body>
 

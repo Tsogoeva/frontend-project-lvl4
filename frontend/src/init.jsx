@@ -41,7 +41,9 @@ const SocketProvider = ({ children }) => {
     store.dispatch(setDefaultChannelId());
   });
 
-  const sendMessage = (data, callback) => socket.emit('newMessage', data, callback);
+  const sendMessage = (data, callback) => {
+    socket.emit('newMessage', data, callback);
+  };
 
   const addNewChannel = (name, callback) => {
     socket.emit('newChannel', { name }, callback);

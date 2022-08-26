@@ -25,8 +25,21 @@ const Remove = ({ onHide, modalInfo }) => {
       <Modal.Body>
         <p className="lead">{t('modals.remove.warning')}</p>
         <div className="d-flex justify-content-end">
-          <Button variant="secondary" type="button" className="me-2" onClick={onHide}>{t('modals.remove.cancel')}</Button>
-          <Button variant="danger" type="submit" onClick={handleClick}>{t('modals.remove.submit')}</Button>
+          <Button
+            variant="secondary"
+            type="button"
+            className="me-2"
+            onClick={onHide}
+          >
+            {t('modals.remove.cancel')}
+          </Button>
+          <Button
+            variant="danger"
+            type="submit"
+            onClick={handleClick}
+          >
+            {t('modals.remove.submit')}
+          </Button>
         </div>
       </Modal.Body>
     </Modal>

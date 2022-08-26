@@ -13,7 +13,10 @@ import axios from 'axios';
 
 import routes from '../routes.js';
 import { useAuth } from '../hooks/index.js';
-import { addChannels, setCurrentChannelId } from '../slices/channelsSlice.js';
+import {
+  addChannels,
+  setCurrentChannelId
+} from '../slices/channelsSlice.js';
 import { addMessages } from '../slices/messagesSlice.js';
 import getModal from './modals/index.js';
 
@@ -42,7 +45,8 @@ const Chat = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
+        const { data } = await axios
+          .get(routes.dataPath(), { headers: getAuthHeader() });
         const {
           currentChannelId,
           channels,
