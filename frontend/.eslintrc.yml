@@ -18,4 +18,4 @@ rules:
   import/extensions: 0
   react/function-component-definition: [2, { "namedComponents": "arrow-function" }]
   react/no-unstable-nested-components: "off"
-  react/prop-types: 0
+  react/prop-types: [2, { "ignore": <ignore> }]

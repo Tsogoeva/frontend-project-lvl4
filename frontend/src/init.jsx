@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import i18n from 'i18next';
 import { initReactI18next, I18nextProvider } from 'react-i18next';
 import { Provider as StoreProvider } from 'react-redux';
@@ -55,11 +55,12 @@ const SocketProvider = ({ children }) => {
     socket.emit('renameChannel', { id, name }, callback);
   };
 
+  const socketTools = useMemo(() => ({
+    sendMessage, addNewChannel, deleteChannel, setNewChannelName,
+  }), [sendMessage, addNewChannel, deleteChannel, setNewChannelName]);
+
   return (
-    <SocketContext.Provider value={{
-      sendMessage, addNewChannel, deleteChannel, setNewChannelName,
-    }}
-    >
+    <SocketContext.Provider value={socketTools}>
       {children}
     </SocketContext.Provider>
   );
