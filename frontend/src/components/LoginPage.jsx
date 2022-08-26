@@ -121,7 +121,7 @@ const Login = () => {
                   <Form.Control.Feedback type="invalid" tooltip>{t('feedback.incorrectLoginOrPassword')}</Form.Control.Feedback>
                 </Form.Group>
 
-                <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('login.submit')}</Button>
+                <Button type="submit" variant="outline-primary" disabled={formik.isSubmitting} className="w-100 mb-3">{t('login.submit')}</Button>
               </Form>
             </Card.Body>
 

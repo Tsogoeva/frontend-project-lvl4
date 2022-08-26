@@ -53,7 +53,7 @@ const ChatMessageField = () => {
             type="submit"
             variant="link"
             className="mb-1 text-dark"
-            disabled={formik.values.body.length === 0}
+            disabled={formik.isSubmitting}
           >
             <ArrowRightSquare size={20} />
             <span className="visually-hidden">{t('submit')}</span>

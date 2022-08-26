@@ -55,7 +55,7 @@ const ChatChannelsList = ({ showModal }) => {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => showModal('removing', { id, name })}>{t('removeChannel')}</Dropdown.Item>
+                  <Dropdown.Item onClick={() => showModal('removing', { id })}>{t('removeChannel')}</Dropdown.Item>
                   <Dropdown.Item onClick={() => showModal('renaming', { id, name })}>{t('renameChannel')}</Dropdown.Item>
                 </Dropdown.Menu>
 

@@ -161,7 +161,7 @@ const SignUp = () => {
                   <Form.Control.Feedback type="invalid" tooltip>{formik.errors.confirmPassword}</Form.Control.Feedback>
                   <Form.Label htmlFor="confirmPassword">{t('signUp.confirmPassword')}</Form.Label>
                 </Form.Group>
-                <Button type="submit" variant="outline-primary" className="w-100">{t('signUp.submit')}</Button>
+                <Button type="submit" variant="outline-primary" disabled={formik.isSubmitting} className="w-100">{t('signUp.submit')}</Button>
               </Form>
             </Card.Body>
           </Card>

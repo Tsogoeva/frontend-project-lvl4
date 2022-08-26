@@ -10,7 +10,7 @@ import * as yup from 'yup';
 import { useSocket } from '../../hooks/index.js';
 
 const Rename = ({ onHide, modalInfo }) => {
-  const { name, id } = modalInfo.channelInfo;
+  const { channelInfo } = modalInfo;
   const { setNewChannelName } = useSocket();
   const { t } = useTranslation();
 
@@ -35,10 +35,10 @@ const Rename = ({ onHide, modalInfo }) => {
   });
 
   const formik = useFormik({
-    initialValues: { name },
+    initialValues: { name: channelInfo.name },
     validationSchema: schema,
     onSubmit: ({ name }) => {
-      setNewChannelName({ name, id }, () => {
+      setNewChannelName({ name, id: channelInfo.id }, () => {
         formik.resetForm();
         setOpenModal(false);
         onHide();
