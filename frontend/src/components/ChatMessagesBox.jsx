@@ -17,12 +17,12 @@ const ChatMessagesBox = () => {
   return (
     <div id="messages-box" className="chat-messages overflow-auto px-5" ref={messagesBoxRef}>
       {currentChannelMessages.map(({ body, username, id }) => {
-        const filteredBody = filter.clean(body);
+        const censoredBody = filter.clean(body);
 
         return (
           <div key={id} className="text-break mb-2">
             <b>{username}</b>
-            {`: ${filteredBody}`}
+            {`: ${censoredBody}`}
           </div>
         );
       })}

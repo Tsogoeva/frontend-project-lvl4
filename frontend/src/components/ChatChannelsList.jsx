@@ -39,7 +39,7 @@ const ChatChannelsList = ({ showModal }) => {
       <Nav fill variant="pills" as="ul" className="flex-column px-2">
         {channels.map(({ id, name, removable }) => {
           const variant = id === currentChannelId ? 'secondary' : '';
-          const filteredName = filter.clean(name);
+          const censoredName = filter.clean(name);
 
           return removable ? (
             <Nav.Item key={id} className="w-100">
@@ -47,7 +47,7 @@ const ChatChannelsList = ({ showModal }) => {
 
                 <Button variant={variant} className="w-100 rounded-0 text-start text-truncate" onClick={handleClick(id)}>
                   <span className="me-1">#</span>
-                  {filteredName}
+                  {censoredName}
                 </Button>
 
                 <Dropdown.Toggle split variant={variant} className="flex-grow-0">

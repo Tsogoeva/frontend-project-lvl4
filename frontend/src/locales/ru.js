@@ -35,6 +35,7 @@ export default {
       },
       messageField: {
         placeholder: 'Введите сообщение...',
+        ariaLabel: 'Новое сообщение',
         newMessage: 'Новое сообщение',
         submit: 'Отправить',
       },
