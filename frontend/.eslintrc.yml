@@ -13,7 +13,6 @@ parserOptions:
 plugins:
   - react
   - react-hooks
-  - functional
 settings:
   import/resolver:
     - node
