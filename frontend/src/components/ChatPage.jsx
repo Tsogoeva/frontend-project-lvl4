@@ -15,7 +15,7 @@ import routes from '../routes.js';
 import { useAuth } from '../hooks/index.js';
 import {
   addChannels,
-  setCurrentChannelId
+  setCurrentChannelId,
 } from '../slices/channelsSlice.js';
 import { addMessages } from '../slices/messagesSlice.js';
 import getModal from './modals/index.js';

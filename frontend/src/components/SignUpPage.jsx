@@ -66,7 +66,7 @@ const SignUp = () => {
     onSubmit: async ({ username, password }) => {
       try {
         const response = await axios
-         .post(routes.signupPath(), { username, password });
+          .post(routes.signupPath(), { username, password });
         setValidValues(true);
         auth.logIn(response.data);
         const { from } = location.state || { from: { pathname: '/' } };

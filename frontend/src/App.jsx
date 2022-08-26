@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -37,12 +37,10 @@ const AuthProvider = ({ children }) => {
     ? { Authorization: `Bearer ${token.token}` }
     : {});
 
-  const authTools = useMemo(() => ({
-    loggedIn, logIn, logOut, getAuthHeader,
-  }), [loggedIn, getAuthHeader]);
-
   return (
-    <AuthContext.Provider value={authTools}>
+    <AuthContext.Provider value={{
+      loggedIn, logIn, logOut, getAuthHeader,
+    }}>
       {children}
     </AuthContext.Provider>
   );
