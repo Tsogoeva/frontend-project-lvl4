@@ -1,28 +1,28 @@
----
-
-plugins:
-  - functional
-
-extends:
-  - airbnb
-  - 'plugin:react-hooks/recommended'
-
-parserOptions:
-  ecmaVersion: latest
-
 env:
   browser: true
-  node: true
-  jest: true
-
+  es2021: true
+extends:
+  - plugin:react/recommended
+  - airbnb
+overrides: []
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: latest
+  sourceType: module
+plugins:
+  - react
+  - react-hooks
+  - functional
 settings:
   import/resolver:
     - node
     - webpack
-
-rules:
+rules: 
   no-console: ['error', { allow: ['warn', 'error'] }]
   import/extensions: 'off'
+  react/function-component-definition: [2, { "namedComponents": "arrow-function" }]
+  react/no-unstable-nested-components: "off"
   react/prop-types: 'off'
   functional/no-conditional-statement: 'off'
   functional/no-expression-statement: 'off'
