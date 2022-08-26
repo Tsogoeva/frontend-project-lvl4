@@ -27,4 +27,6 @@ Web application, analog of Slack chat (very simplified version) with the ability
 * Send and get messages in realtime
 * Filtering of obscene words
 
+## Demo:
+
 [Deploy to Heroku](https://frozen-plains-69754.herokuapp.com/)
