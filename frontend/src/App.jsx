@@ -39,7 +39,7 @@ const AuthProvider = ({ children }) => {
 
   const authTools = useMemo(() => ({
     loggedIn, logIn, logOut, getAuthHeader,
-  }), [loggedIn]);
+  }), [loggedIn, getAuthHeader]);
 
   return (
     <AuthContext.Provider value={authTools}>
