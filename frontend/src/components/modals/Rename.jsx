@@ -7,11 +7,11 @@ import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import { useSocket } from '../../hooks/index.js';
+import { useApi } from '../../hooks/index.js';
 
 const Rename = ({ onHide, modalInfo }) => {
-  const { channelInfo } = modalInfo;
-  const { setNewChannelName } = useSocket();
+  const { data } = modalInfo;
+  const { setNewChannelName } = useApi();
   const { t } = useTranslation();
 
   const channels = useSelector((state) => Object.values(state.channels.entities));
@@ -25,20 +25,20 @@ const Rename = ({ onHide, modalInfo }) => {
     inputRef.current.select();
   }, [openModal]);
 
-  const schema = yup.object({
+  const validationSchema = yup.object({
     name: yup
       .string()
-      .required(t('feedback.required'))
-      .min(3, t('feedback.usernameLength', { min: 3, max: 20 }))
-      .max(20, t('feedback.usernameLength', { min: 3, max: 20 }))
-      .notOneOf(channelNames, t('feedback.uniqueName')),
+      .required('feedback.required')
+      .min(3, 'feedback.usernameLength')
+      .max(20, 'feedback.usernameLength')
+      .notOneOf(channelNames, 'feedback.uniqueName'),
   });
 
   const formik = useFormik({
-    initialValues: { name: channelInfo.name },
-    validationSchema: schema,
+    initialValues: { name: data.name },
+    validationSchema,
     onSubmit: ({ name }) => {
-      setNewChannelName({ name, id: channelInfo.id }, () => {
+      setNewChannelName({ name, id: data.id }, () => {
         formik.resetForm();
         setOpenModal(false);
         onHide();
@@ -50,8 +50,8 @@ const Rename = ({ onHide, modalInfo }) => {
   });
 
   return (
-    <Modal show centered onHide={onHide}>
-      <Modal.Header closeButton>
+    <>
+      <Modal.Header closeButton>,
         <Modal.Title>{t('modals.rename.title')}</Modal.Title>
       </Modal.Header>
 
@@ -77,8 +77,9 @@ const Rename = ({ onHide, modalInfo }) => {
             <Form.Control.Feedback
               type="invalid"
             >
-              {formik.errors.name}
+              {t(formik.errors.name)}
             </Form.Control.Feedback>
+
             <div className="d-flex justify-content-end">
               <Button
                 variant="secondary"
@@ -99,7 +100,7 @@ const Rename = ({ onHide, modalInfo }) => {
           </Form.Group>
         </Form>
       </Modal.Body>
-    </Modal>
+    </>
   );
 };
 

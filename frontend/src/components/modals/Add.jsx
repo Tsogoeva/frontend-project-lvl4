@@ -7,10 +7,11 @@ import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import { useSocket } from '../../hooks/index.js';
+import { useApi } from '../../hooks/index.js';
 
 const Add = ({ onHide }) => {
   const { t } = useTranslation();
+  const { addNewChannel } = useApi();
 
   const channels = useSelector((state) => Object.values(state.channels.entities));
   const channelNames = channels.map((channel) => channel.name);
@@ -20,20 +21,18 @@ const Add = ({ onHide }) => {
     inputRef.current.focus();
   });
 
-  const { addNewChannel } = useSocket();
-
-  const schema = yup.object({
+  const validationSchema = yup.object({
     name: yup
       .string()
-      .required(t('feedback.required'))
-      .min(3, t('feedback.usernameLength', { min: 3, max: 20 }))
-      .max(20, t('feedback.usernameLength', { min: 3, max: 20 }))
-      .notOneOf(channelNames, t('feedback.uniqueName')),
+      .required('feedback.required')
+      .min(3, 'feedback.usernameLength')
+      .max(20, 'feedback.usernameLength')
+      .notOneOf(channelNames, 'feedback.uniqueName'),
   });
 
   const formik = useFormik({
     initialValues: { name: '' },
-    validationSchema: schema,
+    validationSchema,
     onSubmit: ({ name }) => {
       addNewChannel(name, () => {
         formik.resetForm();
@@ -46,7 +45,7 @@ const Add = ({ onHide }) => {
   });
 
   return (
-    <Modal show centered onHide={onHide}>
+    <>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.add.title')}</Modal.Title>
       </Modal.Header>
@@ -73,7 +72,7 @@ const Add = ({ onHide }) => {
             <Form.Control.Feedback
               type="invalid"
             >
-              {formik.errors.name}
+              {t(formik.errors.name)}
             </Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button
@@ -95,7 +94,7 @@ const Add = ({ onHide }) => {
           </Form.Group>
         </Form>
       </Modal.Body>
-    </Modal>
+    </>
   );
 };
 
