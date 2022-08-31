@@ -1,23 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   Container,
   Row,
   Col,
   Spinner,
+  Modal,
 } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useRollbar } from '@rollbar/react';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 
-import routes from '../routes.js';
 import { useAuth } from '../hooks/index.js';
-import {
-  addChannels,
-  setCurrentChannelId,
-} from '../slices/channelsSlice.js';
-import { addMessages } from '../slices/messagesSlice.js';
+import { fetchMessagesData } from '../slices/messagesSlice.js';
+import { fetchChannelsData } from '../slices/channelsSlice.js';
+import { closeModal } from '../slices/modalsSlice.js';
 import getModal from './modals/index.js';
 
 import ChatChannelsList from './ChatChannelsList.jsx';
@@ -25,74 +22,81 @@ import ChatHeader from './ChatHeader.jsx';
 import ChatMessagesBox from './ChatMessagesBox.jsx';
 import ChatMessageField from './ChatMessageField.jsx';
 
-const renderModal = ({ modalInfo, hideModal }) => {
+const Modals = ({ modalInfo, onHide }) => {
   if (!modalInfo.type) {
     return null;
   }
 
   const Component = getModal(modalInfo.type);
-  return <Component modalInfo={modalInfo} onHide={hideModal} />;
+  return <Component modalInfo={modalInfo} onHide={onHide} />;
 };
 
 const Chat = () => {
   const { t } = useTranslation();
-  const { getAuthHeader } = useAuth();
   const dispatch = useDispatch();
+  const { getAuthHeader } = useAuth();
   const rollbar = useRollbar();
-
-  const [loadedData, setLoadedData] = useState(false);
-
+ 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios
-          .get(routes.dataPath(), { headers: getAuthHeader() });
-        const {
-          currentChannelId,
-          channels,
-          messages,
-        } = data;
+    dispatch(fetchChannelsData(getAuthHeader));
+    dispatch(fetchMessagesData(getAuthHeader));
+  }, [dispatch, getAuthHeader]);
+  
+  const channels = useSelector((state) => Object.values(state.channels.entities));
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+  const { channelsDataStatus, channelsDataError } = useSelector((state) => state.channels);
 
-        dispatch(addChannels(channels));
-        dispatch(setCurrentChannelId(currentChannelId));
-        dispatch(addMessages(messages));
+  const messages = useSelector((state) => Object.values(state.messages.entities));
+  const { messagesDataStatus, messagesDataError } = useSelector((state) => state.messages);
 
-        setLoadedData(true);
-      } catch (error) {
-        toast.warn(t('notices.loadedDataError'));
-        rollbar.error(t('notices.loadedDataError'), error);
-      }
-    };
+  const modalInfo = useSelector((state) => state.modals);
+  const isOpen = useSelector((state) => state.modals.isOpen);
 
-    fetchData();
-  }, [dispatch, getAuthHeader, t, rollbar]);
+  if (channelsDataError || messagesDataError) {
+    toast.warn(t('notices.loadedDataError'));
+    rollbar.error(t('notices.loadedDataError'), channelsDataError || messagesDataError);
+  }
 
-  const [modalInfo, setModalInfo] = useState({ type: null, channelInfo: null });
-  const hideModal = () => setModalInfo({ type: null, channelInfo: null });
-  const showModal = (type, channelInfo = null) => setModalInfo({ type, channelInfo });
+  const onHide = () => {
+    dispatch(closeModal());
+  };
 
   const ChatComponents = () => (
-    <Container className="h-100 my-4 overflow-hidden rounded shadow">
-      <Row className="h-100 bg-white flex-md-row">
+      <Container className="h-100 my-4 overflow-hidden rounded shadow">
+        <Row className="h-100 bg-white flex-md-row">
 
-        <ChatChannelsList showModal={showModal} />
+          <ChatChannelsList
+            channels={channels}
+            currentChannelId={currentChannelId}
+          />
 
-        <Col className="p-0 h-100">
+          <Col className="p-0 h-100">
 
-          <div className="d-flex flex-column h-100">
-            <ChatHeader />
-            <ChatMessagesBox />
-            <ChatMessageField />
-          </div>
+            <div className="d-flex flex-column h-100">
+              <ChatHeader
+                channels={channels}
+                currentChannelId={currentChannelId}
+                messages={messages}
+              />
+              <ChatMessagesBox
+                currentChannelId={currentChannelId}
+                messages={messages}
+              />
+              <ChatMessageField
+                currentChannelId={currentChannelId}
+              />
+            </div>
 
-        </Col>
-      </Row>
-      {renderModal({ modalInfo, hideModal })}
-    </Container>
-
+          </Col>
+        </Row>
+        <Modal show={isOpen} centered onHide={onHide}>
+          <Modals modalInfo={modalInfo} onHide={onHide} />
+        </Modal>
+      </Container>
   );
 
-  return loadedData ? <ChatComponents />
+  return channelsDataStatus === 'idle' && messagesDataStatus === 'idle'
+    ? <ChatComponents />
     : (
       <div className="d-flex align-items-center justify-content-center h-100 centered">
         <Spinner animation="border" variant="primary" />
