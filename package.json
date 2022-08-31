@@ -1,7 +1,7 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/Tsogoeva/frontend-project-lvl4/workflows/hexlet-check/badge.svg)](https://github.com/Tsogoeva/frontend-project-lvl4/actions)",
+  "description": "Fourth Hexlet Project: Chat",
   "main": "src/index.js",
   "scripts": {
     "build": "npm run build --prefix frontend",
@@ -23,5 +23,11 @@
   "dependencies": {
     "@hexlet/chat-server": "^1.1.6",
     "node": "16.13.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.22.0",
+    "eslint-plugin-react": "^7.31.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-functional": "^4.2.2"
   }
 }
