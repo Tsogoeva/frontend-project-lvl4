@@ -1,19 +1,16 @@
 import React, { useRef, useEffect } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
-import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { useFormik } from 'formik';
-import { useSocket } from '../hooks/index.js';
+import { useApi } from '../hooks/index.js';
 
-const ChatMessageField = () => {
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
-  const { username } = JSON.parse(localStorage.getItem('userId'));
-
+const ChatMessageField = ({ currentChannelId }) => {
   const { t } = useTranslation('translation', { keyPrefix: 'chat.messageField' });
 
-  const { sendMessage } = useSocket();
+  const { username } = JSON.parse(localStorage.getItem('userId'));
+  const { sendMessage } = useApi();
 
   const inputRef = useRef(null);
   useEffect(() => {

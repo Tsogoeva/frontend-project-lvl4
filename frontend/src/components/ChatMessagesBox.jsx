@@ -1,11 +1,7 @@
 import React, { useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import filter from 'leo-profanity';
 
-const ChatMessagesBox = () => {
-  const messages = useSelector((state) => Object.values(state.messages.entities));
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
-
+const ChatMessagesBox = ({ currentChannelId, messages }) => {
   const currentChannelMessages = messages
     .filter((message) => message.channelId === currentChannelId);
 
