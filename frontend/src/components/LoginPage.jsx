@@ -28,12 +28,20 @@ const Login = () => {
 
   const [authFailed, setAuthFailed] = useState(false);
 
+  useEffect(() => {
+    if (auth.loggedIn) {
+      navigate(routes.chatPagePath());
+      return;
+    }
+    navigate(routes.loginPagePath());
+  }, [auth.loggedIn, navigate]);
+
   const inputRef = useRef();
   useEffect(() => {
     inputRef.current.focus();
   }, []);
 
-  const validationSchema = yup.object({
+  const validationSchema = yup.object().shape({
     username: yup.string().required(),
     password: yup.string().required(),
   });
