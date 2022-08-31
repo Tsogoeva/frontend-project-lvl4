@@ -1,3 +1,5 @@
+/* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
+
 export default {
   translation: {
     header: {
@@ -67,8 +69,8 @@ export default {
     feedback: {
       incorrectLoginOrPassword: 'Неверные имя пользователя или пароль',
       passwordMatch: 'Пароли должны совпадать',
-      usernameLength: 'от {{min}} до {{max}} символов',
-      passwordLength: 'Не менее {{min}} символов',
+      usernameLength: 'от 3 до 20 символов',
+      passwordLength: 'Не менее 6 символов',
       required: 'Обязательное поле',
       uniqueName: 'Должно быть уникальным',
     },
