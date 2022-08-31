@@ -30,26 +30,34 @@ const SignUp = () => {
   const rollbar = useRollbar();
 
   useEffect(() => {
+    if (auth.loggedIn) {
+      navigate(routes.chatPagePath());
+      return;
+    }
+    navigate(routes.signupPagePath());
+  }, [auth.loggedIn, navigate]);
+
+  useEffect(() => {
     inputRef.current.focus();
   }, []);
 
   yup.setLocale({
     mixed: {
-      required: t('feedback.required'),
-      oneOf: t('feedback.passwordMatch'),
+      required: 'feedback.required',
+      oneOf: 'feedback.passwordMatch',
     },
   });
 
-  const validationSchema = yup.object().shape({
+  const validationSchema = yup.object({
     username: yup
       .string()
       .required()
-      .min(3, t('feedback.usernameLength', { min: 3, max: 20 }))
-      .max(20, t('feedback.usernameLength', { min: 3, max: 20 })),
+      .min(3, 'feedback.usernameLength')
+      .max(20, 'feedback.usernameLength'),
     password: yup
       .string()
       .required()
-      .min(6, t('feedback.passwordLength', { min: 6 })),
+      .min(6, 'feedback.passwordLength'),
     confirmPassword: yup
       .string()
       .required()
@@ -71,6 +79,7 @@ const SignUp = () => {
         auth.logIn(response.data);
         const { from } = location.state || { from: { pathname: '/' } };
         navigate(from);
+
       } catch (error) {
         if (error.response.status === 409) {
           toast.error(t('notices.userExists'));
@@ -95,7 +104,7 @@ const SignUp = () => {
     },
     validateOnChange: false,
   });
-
+  
   const {
     handleSubmit,
     handleChange,
@@ -111,15 +120,15 @@ const SignUp = () => {
         <Col md={8} xxl={6} className="col-12">
           <Card className="shadow-sm">
             <Card.Body
-              className="d-flex flex-column flex-m d-row justify-content-around align-items-center p-5"
+              className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5"
             >
-              <Col xs={12} md={6}>
+              <div>
                 <img
                   src={picture}
                   className="rounded-circle"
                   alt="Регистрация"
                 />
-              </Col>
+              </div>
               <Form onSubmit={handleSubmit} className="w-50">
                 <h1 className="text-center mb-4">{t('signUp.header')}</h1>
 
@@ -133,7 +142,7 @@ const SignUp = () => {
                     autoComplete="username"
                     isInvalid={(errors.username && touched.username) || !validValues}
                     ref={inputRef}
-                    placeholder={t('feedback.usernameLength', { min: 3, max: 20 })}
+                    placeholder={t('feedback.usernameLength')}
                   />
                   <Form.Label htmlFor="username">{t('signUp.username')}</Form.Label>
                   <Form.Control.Feedback
@@ -141,7 +150,7 @@ const SignUp = () => {
                     type="invalid"
                     tooltip
                   >
-                    {errors.username}
+                    {t(errors.username)}
                   </Form.Control.Feedback>
                 </Form.Group>
 
@@ -162,7 +171,7 @@ const SignUp = () => {
                     type="invalid"
                     tooltip
                   >
-                    {errors.password}
+                    {t(errors.password)}
                   </Form.Control.Feedback>
                   <Form.Label htmlFor="password">{t('signUp.password')}</Form.Label>
                 </Form.Group>
@@ -183,7 +192,7 @@ const SignUp = () => {
                     type="invalid"
                     tooltip
                   >
-                    {formik.errors.confirmPassword}
+                    {t(errors.confirmPassword)}
                   </Form.Control.Feedback>
                   <Form.Label htmlFor="confirmPassword">{t('signUp.confirmPassword')}</Form.Label>
                 </Form.Group>
