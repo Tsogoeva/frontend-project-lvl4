@@ -7,19 +7,21 @@ import {
   ButtonGroup,
 } from 'react-bootstrap';
 import { PlusSquare } from 'react-bootstrap-icons';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 
 import { setCurrentChannelId } from '../slices/channelsSlice.js';
+import { openModal } from '../slices/modalsSlice.js';
 
-const ChatChannelsList = ({ showModal }) => {
+const ChatChannelsList = ({ channels, currentChannelId }) => {
   const { t } = useTranslation('translation', { keyPrefix: 'chat.channelList' });
 
-  const channels = useSelector((state) => Object.values(state.channels.entities));
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
-
   const dispatch = useDispatch();
+
+  const showModal = (type, data) => () => {
+    dispatch(openModal({ type, data }));
+  };
 
   const handleClick = (channelId) => () => {
     dispatch(setCurrentChannelId(channelId));
@@ -32,7 +34,7 @@ const ChatChannelsList = ({ showModal }) => {
         <span>{t('header')}</span>
         <Button
           type="button"
-          onClick={() => showModal('adding')}
+          onClick={showModal('adding')}
           variant="group-vertical"
           className="p-0 text-primary"
         >
@@ -65,12 +67,12 @@ const ChatChannelsList = ({ showModal }) => {
 
                 <Dropdown.Menu>
                   <Dropdown.Item
-                    onClick={() => showModal('removing', { id })}
+                    onClick={showModal('removing', { id })}
                   >
                     {t('removeChannel')}
                   </Dropdown.Item>
                   <Dropdown.Item
-                    onClick={() => showModal('renaming', { id, name })}
+                    onClick={showModal('renaming', { id, name })}
                   >
                     {t('renameChannel')}
                   </Dropdown.Item>
