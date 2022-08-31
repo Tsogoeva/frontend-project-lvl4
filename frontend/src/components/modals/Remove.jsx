@@ -3,13 +3,13 @@ import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import { useSocket } from '../../hooks/index.js';
+import { useApi } from '../../hooks/index.js';
 
 const Remove = ({ onHide, modalInfo }) => {
   const { t } = useTranslation();
 
-  const { id } = modalInfo.channelInfo;
-  const { deleteChannel } = useSocket();
+  const { id } = modalInfo.data;
+  const { deleteChannel } = useApi();
 
   const handleClick = () => {
     deleteChannel(id, onHide);
@@ -17,7 +17,7 @@ const Remove = ({ onHide, modalInfo }) => {
   };
 
   return (
-    <Modal show centered onHide={onHide}>
+    <>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.remove.title')}</Modal.Title>
       </Modal.Header>
@@ -42,7 +42,7 @@ const Remove = ({ onHide, modalInfo }) => {
           </Button>
         </div>
       </Modal.Body>
-    </Modal>
+    </>
   );
 };
 
