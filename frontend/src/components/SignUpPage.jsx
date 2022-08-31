@@ -79,7 +79,6 @@ const SignUp = () => {
         auth.logIn(response.data);
         const { from } = location.state || { from: { pathname: '/' } };
         navigate(from);
-
       } catch (error) {
         if (error.response.status === 409) {
           toast.error(t('notices.userExists'));
@@ -104,7 +103,7 @@ const SignUp = () => {
     },
     validateOnChange: false,
   });
-  
+
   const {
     handleSubmit,
     handleChange,

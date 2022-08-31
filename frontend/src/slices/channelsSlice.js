@@ -7,12 +7,11 @@ import routes from '../routes.js';
 
 export const fetchChannelsData = createAsyncThunk(
   'channels/fetchChannelsData',
-  async (getAuthHeader, {rejectWithValue}) => {
+  async (getAuthHeader, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
       const { channels, currentChannelId } = data;
       return { channels, currentChannelId };
-
     } catch (error) {
       return rejectWithValue('Data not found');
     }
@@ -53,14 +52,14 @@ const channelsSlice = createSlice({
       .addCase(fetchChannelsData.fulfilled, (state, { payload }) => {
         const { channels, currentChannelId } = payload;
         channelsAdapter.addMany(state, channels);
-        state.currentChannelId = currentChannelId; 
+        state.currentChannelId = currentChannelId;
         state.channelsDataStatus = 'idle';
         state.channelsDataError = null;
       })
       .addCase(fetchChannelsData.rejected, (state, { payload }) => {
         state.channelsDataStatus = 'failed';
         state.channelsDataError = payload;
-      })
+      });
   },
 });
 

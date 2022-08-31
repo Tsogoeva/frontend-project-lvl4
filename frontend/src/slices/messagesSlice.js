@@ -1,3 +1,5 @@
+/* eslint no-param-reassign: ["error", { "props": false }] */
+
 import axios from 'axios';
 
 import { createAsyncThunk, createSlice, createEntityAdapter } from '@reduxjs/toolkit';
@@ -6,12 +8,11 @@ import routes from '../routes.js';
 
 export const fetchMessagesData = createAsyncThunk(
   'messages/fetchMessagesData',
-  async (getAuthHeader, {rejectWithValue}) => {
+  async (getAuthHeader, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
       const { messages } = data;
       return messages;
-
     } catch (error) {
       return rejectWithValue('Data not found');
     }
@@ -50,7 +51,7 @@ const messagesSlice = createSlice({
       .addCase(fetchMessagesData.rejected, (state, { payload }) => {
         state.messagesDataStatus = 'failed';
         state.messagesDataError = payload;
-      })
+      });
   },
 });
 

@@ -51,7 +51,7 @@ const Rename = ({ onHide, modalInfo }) => {
 
   return (
     <>
-      <Modal.Header closeButton>,
+      <Modal.Header closeButton>
         <Modal.Title>{t('modals.rename.title')}</Modal.Title>
       </Modal.Header>
 

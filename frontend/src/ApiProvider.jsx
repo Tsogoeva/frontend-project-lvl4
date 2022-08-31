@@ -13,7 +13,7 @@ const ApiProvider = ({ children }) => {
 
   return (
     <ApiContext.Provider
-      value={{ 
+      value={{
         sendMessage, addNewChannel, deleteChannel, setNewChannelName,
       }}
     >

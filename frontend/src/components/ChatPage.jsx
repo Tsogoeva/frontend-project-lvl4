@@ -36,12 +36,12 @@ const Chat = () => {
   const dispatch = useDispatch();
   const { getAuthHeader } = useAuth();
   const rollbar = useRollbar();
- 
+
   useEffect(() => {
     dispatch(fetchChannelsData(getAuthHeader));
     dispatch(fetchMessagesData(getAuthHeader));
   }, [dispatch, getAuthHeader]);
-  
+
   const channels = useSelector((state) => Object.values(state.channels.entities));
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const { channelsDataStatus, channelsDataError } = useSelector((state) => state.channels);
@@ -62,37 +62,37 @@ const Chat = () => {
   };
 
   const ChatComponents = () => (
-      <Container className="h-100 my-4 overflow-hidden rounded shadow">
-        <Row className="h-100 bg-white flex-md-row">
+    <Container className="h-100 my-4 overflow-hidden rounded shadow">
+      <Row className="h-100 bg-white flex-md-row">
 
-          <ChatChannelsList
-            channels={channels}
-            currentChannelId={currentChannelId}
-          />
+        <ChatChannelsList
+          channels={channels}
+          currentChannelId={currentChannelId}
+        />
 
-          <Col className="p-0 h-100">
+        <Col className="p-0 h-100">
 
-            <div className="d-flex flex-column h-100">
-              <ChatHeader
-                channels={channels}
-                currentChannelId={currentChannelId}
-                messages={messages}
-              />
-              <ChatMessagesBox
-                currentChannelId={currentChannelId}
-                messages={messages}
-              />
-              <ChatMessageField
-                currentChannelId={currentChannelId}
-              />
-            </div>
+          <div className="d-flex flex-column h-100">
+            <ChatHeader
+              channels={channels}
+              currentChannelId={currentChannelId}
+              messages={messages}
+            />
+            <ChatMessagesBox
+              currentChannelId={currentChannelId}
+              messages={messages}
+            />
+            <ChatMessageField
+              currentChannelId={currentChannelId}
+            />
+          </div>
 
-          </Col>
-        </Row>
-        <Modal show={isOpen} centered onHide={onHide}>
-          <Modals modalInfo={modalInfo} onHide={onHide} />
-        </Modal>
-      </Container>
+        </Col>
+      </Row>
+      <Modal show={isOpen} centered onHide={onHide}>
+        <Modals modalInfo={modalInfo} onHide={onHide} />
+      </Modal>
+    </Container>
   );
 
   return channelsDataStatus === 'idle' && messagesDataStatus === 'idle'
