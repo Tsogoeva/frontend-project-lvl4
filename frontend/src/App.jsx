@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -8,7 +8,7 @@ import {
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { AuthContext } from './contexts/index.js';
+import AuthProvider from './AuthProvider.jsx';
 import { useAuth } from './hooks/index.js';
 import routes from './routes.js';
 
@@ -17,36 +17,6 @@ import Login from './components/LoginPage.jsx';
 import SignUp from './components/SignUpPage.jsx';
 import NotFound from './components/NotFoundPage.jsx';
 import Header from './components/Header.jsx';
-
-const AuthProvider = ({ children }) => {
-  const token = JSON.parse(localStorage.getItem('userId'));
-  const [loggedIn, setLoggedIn] = useState(!!token);
-
-  const logIn = (data) => {
-    const currToken = JSON.stringify(data);
-    localStorage.setItem('userId', currToken);
-    setLoggedIn(true);
-  };
-
-  const logOut = () => {
-    localStorage.removeItem('userId');
-    setLoggedIn(false);
-  };
-
-  const getAuthHeader = () => (loggedIn
-    ? { Authorization: `Bearer ${token.token}` }
-    : {});
-
-  return (
-    <AuthContext.Provider
-      value={{
-        loggedIn, logIn, logOut, getAuthHeader,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
-};
 
 const ChatRoute = ({ children }) => {
   const auth = useAuth();
