@@ -26,7 +26,7 @@ const ChatRoute = ({ children }) => {
 const AuthRoute = ({ children }) => {
   const auth = useAuth();
   return auth.loggedIn ? <Navigate to={routes.chatPagePath()} /> : children;
-}
+};
 
 const App = () => (
   <AuthProvider>
@@ -60,7 +60,7 @@ const App = () => (
                   </ChatRoute>
                 )}
               />
-              <Route path={routes.errorPagePath()} element={<ErrorFoundPage />}/>
+              <Route path={routes.errorPagePath()} element={<ErrorFoundPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

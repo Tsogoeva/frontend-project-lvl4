@@ -1,5 +1,5 @@
-import { selectors as channelsSelectors } from "./channelsSlice";
-import { selectors as messagesSelectors } from "./messagesSlice";
+import { selectors as channelsSelectors } from './channelsSlice';
+import { selectors as messagesSelectors } from './messagesSlice';
 
 export const getChannels = (state) => channelsSelectors.selectAll(state);
 export const getCurrentChannelId = (state) => state.channels.currentChannelId;

@@ -11,7 +11,7 @@ const ApiProvider = ({ api, children }) => {
     deleteChannel,
     setNewChannelName,
   } = api;
-  
+
   return (
     <ApiContext.Provider
       value={{
@@ -22,6 +22,5 @@ const ApiProvider = ({ api, children }) => {
     </ApiContext.Provider>
   );
 };
-  
+
 export default ApiProvider;
-  

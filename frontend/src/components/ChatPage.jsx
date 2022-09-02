@@ -26,11 +26,11 @@ import ChatMessageField from './ChatMessageField.jsx';
 
 const Modals = () => {
   const { type } = useSelector(getModalInfo);
-  
+
   if (!type) {
     return null;
   }
-  
+
   const Component = getModal(type);
   return <Component />;
 };

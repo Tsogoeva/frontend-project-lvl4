@@ -9,7 +9,6 @@ import { addMessage } from './slices/messagesSlice.js';
 import store from './slices/index.js';
 
 const initSocket = (socket) => {
-
   socket.on('newMessage', (payload) => {
     store.dispatch(addMessage(payload));
   });

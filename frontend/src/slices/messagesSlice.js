@@ -21,7 +21,7 @@ const messagesSlice = createSlice({
         messagesAdapter.setAll(state, restMessages);
       })
       .addCase(fetchData.fulfilled, (state, { payload }) => {
-        const { messages } = payload
+        const { messages } = payload;
         messagesAdapter.addMany(state, messages);
       });
   },

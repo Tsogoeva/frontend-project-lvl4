@@ -15,7 +15,7 @@ const Rename = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { setNewChannelName } = useApi();
-  
+
   const channels = useSelector(getChannels);
   const channelNames = channels.map((channel) => channel.name);
 
