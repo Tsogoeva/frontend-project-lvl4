@@ -68,6 +68,12 @@ export default {
       textToLink: 'Но вы можете перейти ',
       link: 'на главную страницу',
     },
+    errorFound: {
+      errorFound: 'Обнаружена ошибка: ',
+      errorFoundAlt: 'Обнаружена ошибка',
+      textToLink: 'Обновите ',
+      link: 'страницу',
+    },
     feedback: {
       incorrectLoginOrPassword: 'Неверные имя пользователя или пароль',
       passwordMatch: 'Пароли должны совпадать',

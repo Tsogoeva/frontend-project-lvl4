@@ -15,6 +15,7 @@ import Chat from './components/ChatPage.jsx';
 import Login from './components/LoginPage.jsx';
 import SignUp from './components/SignUpPage.jsx';
 import NotFound from './components/NotFoundPage.jsx';
+import ErrorFoundPage from './components/ErrorFoundPage.jsx';
 import Header from './components/Header.jsx';
 
 const ChatRoute = ({ children }) => {
@@ -59,6 +60,7 @@ const App = () => (
                   </ChatRoute>
                 )}
               />
+              <Route path={routes.errorPagePath()} element={<ErrorFoundPage />}/>
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

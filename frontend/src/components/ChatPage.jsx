@@ -7,6 +7,7 @@ import {
   Modal,
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useRollbar } from '@rollbar/react';
 import { toast } from 'react-toastify';
@@ -16,6 +17,7 @@ import { fetchData } from '../slices/channelsSlice.js';
 import { closeModal } from '../slices/modalsSlice.js';
 import { getDataInfo, getModalInfo } from '../slices/selectors.js';
 import getModal from './modals/index.js';
+import routes from '../routes.js';
 
 import ChatChannelsList from './ChatChannelsList.jsx';
 import ChatHeader from './ChatHeader.jsx';
@@ -24,11 +26,11 @@ import ChatMessageField from './ChatMessageField.jsx';
 
 const Modals = () => {
   const { type } = useSelector(getModalInfo);
-
+  
   if (!type) {
     return null;
   }
-
+  
   const Component = getModal(type);
   return <Component />;
 };
@@ -36,6 +38,7 @@ const Modals = () => {
 const Chat = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { getAuthHeader } = useAuth();
   const rollbar = useRollbar();
 
@@ -47,6 +50,7 @@ const Chat = () => {
   const { isOpen } = useSelector(getModalInfo);
 
   if (dataError) {
+    navigate(routes.errorPagePath());
     toast.warn(t('notices.loadedDataError'));
     rollbar.error(t('notices.loadedDataError'), dataError);
   }
