@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../hooks/index.js';
 import { fetchData } from '../slices/channelsSlice.js';
 import { closeModal } from '../slices/modalsSlice.js';
+import { getDataInfo, getModalInfo } from '../slices/selectors.js';
 import getModal from './modals/index.js';
 
 import ChatChannelsList from './ChatChannelsList.jsx';
@@ -21,13 +22,15 @@ import ChatHeader from './ChatHeader.jsx';
 import ChatMessagesBox from './ChatMessagesBox.jsx';
 import ChatMessageField from './ChatMessageField.jsx';
 
-const Modals = ({ modalInfo, onHide }) => {
-  if (!modalInfo.type) {
+const Modals = ({ onHide }) => {
+  const { type } = useSelector(getModalInfo);
+
+  if (!type) {
     return null;
   }
 
-  const Component = getModal(modalInfo.type);
-  return <Component modalInfo={modalInfo} onHide={onHide} />;
+  const Component = getModal(type);
+  return <Component onHide={onHide} />;
 };
 
 const Chat = () => {
@@ -40,14 +43,8 @@ const Chat = () => {
     dispatch(fetchData(getAuthHeader));
   }, [dispatch, getAuthHeader]);
 
-  const channels = useSelector((state) => Object.values(state.channels.entities));
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
-  const { dataStatus, dataError } = useSelector((state) => state.channels);
-
-  const messages = useSelector((state) => Object.values(state.messages.entities));
-
-  const modalInfo = useSelector((state) => state.modals);
-  const isOpen = useSelector((state) => state.modals.isOpen);
+  const { dataError, dataStatus } = useSelector(getDataInfo);
+  const { isOpen } = useSelector(getModalInfo);
 
   if (dataError) {
     toast.warn(t('notices.loadedDataError'));
@@ -62,32 +59,20 @@ const Chat = () => {
     <Container className="h-100 my-4 overflow-hidden rounded shadow">
       <Row className="h-100 bg-white flex-md-row">
 
-        <ChatChannelsList
-          channels={channels}
-          currentChannelId={currentChannelId}
-        />
+        <ChatChannelsList />
 
         <Col className="p-0 h-100">
 
           <div className="d-flex flex-column h-100">
-            <ChatHeader
-              channels={channels}
-              currentChannelId={currentChannelId}
-              messages={messages}
-            />
-            <ChatMessagesBox
-              currentChannelId={currentChannelId}
-              messages={messages}
-            />
-            <ChatMessageField
-              currentChannelId={currentChannelId}
-            />
+            <ChatHeader />
+            <ChatMessagesBox />
+            <ChatMessageField />
           </div>
 
         </Col>
       </Row>
       <Modal show={isOpen} centered onHide={onHide}>
-        <Modals modalInfo={modalInfo} onHide={onHide} />
+        <Modals onHide={onHide} />
       </Modal>
     </Container>
   );

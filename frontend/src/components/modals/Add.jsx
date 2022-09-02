@@ -8,12 +8,13 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 import { useApi } from '../../hooks/index.js';
+import { getChannels } from '../../slices/selectors.js';
 
 const Add = ({ onHide }) => {
   const { t } = useTranslation();
   const { addNewChannel } = useApi();
 
-  const channels = useSelector((state) => Object.values(state.channels.entities));
+  const channels = useSelector(getChannels);
   const channelNames = channels.map((channel) => channel.name);
 
   const inputRef = useRef(null);

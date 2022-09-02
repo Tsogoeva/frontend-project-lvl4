@@ -1,14 +1,15 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { useApi } from '../../hooks/index.js';
+import { getModalInfo } from '../../slices/selectors.js';
 
-const Remove = ({ onHide, modalInfo }) => {
+const Remove = ({ onHide }) => {
   const { t } = useTranslation();
-
-  const { id } = modalInfo.data;
+  const { data: { id } } = useSelector(getModalInfo);
   const { deleteChannel } = useApi();
 
   const handleClick = () => {

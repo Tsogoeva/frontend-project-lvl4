@@ -7,17 +7,20 @@ import {
   ButtonGroup,
 } from 'react-bootstrap';
 import { PlusSquare } from 'react-bootstrap-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 
+import { getChannels, getCurrentChannelId } from '../slices/selectors.js';
 import { setCurrentChannelId } from '../slices/channelsSlice.js';
 import { openModal } from '../slices/modalsSlice.js';
 
-const ChatChannelsList = ({ channels, currentChannelId }) => {
+const ChatChannelsList = () => {
   const { t } = useTranslation('translation', { keyPrefix: 'chat.channelList' });
-
   const dispatch = useDispatch();
+
+  const channels = useSelector(getChannels);
+  const currentChannelId = useSelector(getCurrentChannelId);
 
   const showModal = (type, data) => () => {
     dispatch(openModal({ type, data }));

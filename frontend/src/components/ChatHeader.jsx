@@ -1,9 +1,20 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import filter from 'leo-profanity';
 
-const ChatHeader = ({ channels, currentChannelId, messages }) => {
+import {
+  getChannels,
+  getCurrentChannelId,
+  getMessages,
+} from '../slices/selectors';
+
+const ChatHeader = () => {
   const { t } = useTranslation('translation', { keyPrefix: 'chat.header' });
+
+  const channels = useSelector(getChannels);
+  const currentChannelId = useSelector(getCurrentChannelId);
+  const messages = useSelector(getMessages);
 
   const { name } = channels.find(({ id }) => id === currentChannelId);
   const censoredName = filter.clean(name);

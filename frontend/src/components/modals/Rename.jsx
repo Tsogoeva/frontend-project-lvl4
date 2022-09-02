@@ -8,13 +8,14 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 import { useApi } from '../../hooks/index.js';
+import { getChannels, getModalInfo } from '../../slices/selectors.js';
 
-const Rename = ({ onHide, modalInfo }) => {
-  const { data } = modalInfo;
+const Rename = ({ onHide }) => {
+  const { data } = useSelector(getModalInfo);
   const { setNewChannelName } = useApi();
   const { t } = useTranslation();
 
-  const channels = useSelector((state) => Object.values(state.channels.entities));
+  const channels = useSelector(getChannels);
   const channelNames = channels.map((channel) => channel.name);
 
   const [openModal, setOpenModal] = useState(false);
