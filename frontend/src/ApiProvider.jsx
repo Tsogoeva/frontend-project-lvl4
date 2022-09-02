@@ -1,15 +1,14 @@
 import React from 'react';
 
 import { ApiContext } from './contexts/index.js';
-import initSocket from './socket.js';
 
-const ApiProvider = ({ children }) => {
+const ApiProvider = ({ api, children }) => {
   const {
     sendMessage,
     addNewChannel,
     deleteChannel,
     setNewChannelName,
-  } = initSocket();
+  } = api;
 
   return (
     <ApiContext.Provider

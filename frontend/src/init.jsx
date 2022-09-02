@@ -6,12 +6,14 @@ import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import filter from 'leo-profanity';
 
 import ApiProvider from './ApiProvider.jsx';
+import initSocket from './socket.js';
 import store from './slices/index.js';
 import ru from './locales/ru.js';
 
 import App from './App.jsx';
 
-const init = async () => {
+const init = async (socket) => {
+  const api = initSocket(socket);
   await i18n
     .use(initReactI18next)
     .init({
@@ -40,7 +42,7 @@ const init = async () => {
       <ErrorBoundary errorMessage="Error in React render">
         <I18nextProvider i18n={i18n}>
           <StoreProvider store={store}>
-            <ApiProvider>
+            <ApiProvider api={api}>
               <App />
             </ApiProvider>
           </StoreProvider>
