@@ -23,6 +23,11 @@ const ChatRoute = ({ children }) => {
   return auth.loggedIn ? children : <Navigate to={routes.loginPagePath()} />;
 };
 
+const AuthRoute = ({ children }) => {
+  const auth = useAuth();
+  return auth.loggedIn ? <Navigate to={routes.chatPagePath()} /> : children;
+}
+
 const App = () => (
   <AuthProvider>
     <Router>
@@ -31,8 +36,22 @@ const App = () => (
           <div className="d-flex flex-column vh-100">
             <Header />
             <Routes>
-              <Route path={routes.signupPagePath()} element={<SignUp />} />
-              <Route path={routes.loginPagePath()} element={<Login />} />
+              <Route
+                path={routes.signupPagePath()}
+                element={(
+                  <AuthRoute>
+                    <SignUp />
+                  </AuthRoute>
+                )}
+              />
+              <Route
+                path={routes.loginPagePath()}
+                element={(
+                  <AuthRoute>
+                    <Login />
+                  </AuthRoute>
+                )}
+              />
               <Route
                 path={routes.chatPagePath()}
                 element={(

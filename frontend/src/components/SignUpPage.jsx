@@ -30,14 +30,6 @@ const SignUp = () => {
   const rollbar = useRollbar();
 
   useEffect(() => {
-    if (auth.loggedIn) {
-      navigate(routes.chatPagePath());
-      return;
-    }
-    navigate(routes.signupPagePath());
-  }, [auth.loggedIn, navigate]);
-
-  useEffect(() => {
     inputRef.current.focus();
   }, []);
 
