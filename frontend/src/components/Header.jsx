@@ -7,7 +7,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { useAuth } from '../hooks/index.js';
+import { useAuth } from '../contexts/AuthContext.jsx';
 
 const Header = () => {
   const { logOut, loggedIn } = useAuth();

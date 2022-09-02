@@ -8,8 +8,7 @@ import {
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import AuthProvider from './AuthProvider.jsx';
-import { useAuth } from './hooks/index.js';
+import AuthProvider, { useAuth } from './contexts/AuthContext.jsx';
 import routes from './routes.js';
 
 import Chat from './components/ChatPage.jsx';

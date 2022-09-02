@@ -16,7 +16,7 @@ import * as yup from 'yup';
 import axios from 'axios';
 
 import picture from '../assets/greetingPicture.jpg';
-import { useAuth } from '../hooks/index.js';
+import { useAuth } from '../contexts/AuthContext.jsx';
 import routes from '../routes.js';
 
 const Login = () => {

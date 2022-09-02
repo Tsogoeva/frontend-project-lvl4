@@ -1,7 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import filter from 'leo-profanity';
 import { useSelector } from 'react-redux';
-import { getCurrentChannelId, getMessages } from '../slices/selectors';
+
+import { getCurrentChannelId, getMessages } from '../slices/selectors.js';
 
 const ChatMessagesBox = () => {
   const currentChannelId = useSelector(getCurrentChannelId);

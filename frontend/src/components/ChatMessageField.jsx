@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 import { useFormik } from 'formik';
 
-import { useApi } from '../hooks/index.js';
+import { useApi } from '../contexts/ApiContext.jsx';
 import { getCurrentChannelId } from '../slices/selectors.js';
 
 const ChatMessageField = () => {

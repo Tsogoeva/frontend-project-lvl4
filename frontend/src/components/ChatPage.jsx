@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useRollbar } from '@rollbar/react';
 import { toast } from 'react-toastify';
 
-import { useAuth } from '../hooks/index.js';
+import { useAuth } from '../contexts/AuthContext.jsx';
 import { fetchData } from '../slices/channelsSlice.js';
 import { closeModal } from '../slices/modalsSlice.js';
 import { getDataInfo, getModalInfo } from '../slices/selectors.js';

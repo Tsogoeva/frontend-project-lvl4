@@ -7,7 +7,7 @@ import {
   getChannels,
   getCurrentChannelId,
   getMessages,
-} from '../slices/selectors';
+} from '../slices/selectors.js';
 
 const ChatHeader = () => {
   const { t } = useTranslation('translation', { keyPrefix: 'chat.header' });

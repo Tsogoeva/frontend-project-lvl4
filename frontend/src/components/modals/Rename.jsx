@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import { useApi } from '../../hooks/index.js';
+import { useApi } from '../../contexts/ApiContext.jsx';
 import { getChannels, getModalInfo } from '../../slices/selectors.js';
 import { closeModal } from '../../slices/modalsSlice.js';
 

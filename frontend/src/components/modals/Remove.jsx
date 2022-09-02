@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import { useApi } from '../../hooks/index.js';
+import { useApi } from '../../contexts/ApiContext.jsx';
 import { getModalInfo } from '../../slices/selectors.js';
 import { closeModal } from '../../slices/modalsSlice.js';
 

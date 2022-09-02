@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { createContext, useContext } from 'react';
 
-import { ApiContext } from './contexts/index.js';
+export const ApiContext = createContext({});
+
+export const useApi = () => useContext(ApiContext);
 
 const ApiProvider = ({ api, children }) => {
   const {
@@ -9,7 +11,7 @@ const ApiProvider = ({ api, children }) => {
     deleteChannel,
     setNewChannelName,
   } = api;
-
+  
   return (
     <ApiContext.Provider
       value={{
@@ -20,5 +22,6 @@ const ApiProvider = ({ api, children }) => {
     </ApiContext.Provider>
   );
 };
-
+  
 export default ApiProvider;
+  

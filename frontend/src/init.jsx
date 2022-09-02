@@ -5,7 +5,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import filter from 'leo-profanity';
 
-import ApiProvider from './ApiProvider.jsx';
+import ApiProvider from './contexts/ApiContext.jsx';
 import initSocket from './socket.js';
 import store from './slices/index.js';
 import ru from './locales/ru.js';
