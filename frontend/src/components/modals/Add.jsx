@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -9,8 +9,10 @@ import * as yup from 'yup';
 
 import { useApi } from '../../hooks/index.js';
 import { getChannels } from '../../slices/selectors.js';
+import { closeModal } from '../../slices/modalsSlice.js';
 
-const Add = ({ onHide }) => {
+const Add = () => {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const { addNewChannel } = useApi();
 
@@ -21,6 +23,10 @@ const Add = ({ onHide }) => {
   useEffect(() => {
     inputRef.current.focus();
   });
+
+  const onHide = () => {
+    dispatch(closeModal());
+  };
 
   const validationSchema = yup.object({
     name: yup

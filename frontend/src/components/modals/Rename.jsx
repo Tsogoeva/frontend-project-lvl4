@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -9,15 +9,17 @@ import * as yup from 'yup';
 
 import { useApi } from '../../hooks/index.js';
 import { getChannels, getModalInfo } from '../../slices/selectors.js';
+import { closeModal } from '../../slices/modalsSlice.js';
 
-const Rename = ({ onHide }) => {
-  const { data } = useSelector(getModalInfo);
-  const { setNewChannelName } = useApi();
+const Rename = () => {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
-
+  const { setNewChannelName } = useApi();
+  
   const channels = useSelector(getChannels);
   const channelNames = channels.map((channel) => channel.name);
 
+  const { data } = useSelector(getModalInfo);
   const [openModal, setOpenModal] = useState(false);
 
   const inputRef = useRef();
@@ -25,6 +27,10 @@ const Rename = ({ onHide }) => {
     setOpenModal(true);
     inputRef.current.select();
   }, [openModal]);
+
+  const onHide = () => {
+    dispatch(closeModal());
+  };
 
   const validationSchema = yup.object({
     name: yup

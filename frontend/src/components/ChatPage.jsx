@@ -22,7 +22,7 @@ import ChatHeader from './ChatHeader.jsx';
 import ChatMessagesBox from './ChatMessagesBox.jsx';
 import ChatMessageField from './ChatMessageField.jsx';
 
-const Modals = ({ onHide }) => {
+const Modals = () => {
   const { type } = useSelector(getModalInfo);
 
   if (!type) {
@@ -30,7 +30,7 @@ const Modals = ({ onHide }) => {
   }
 
   const Component = getModal(type);
-  return <Component onHide={onHide} />;
+  return <Component />;
 };
 
 const Chat = () => {
@@ -51,10 +51,6 @@ const Chat = () => {
     rollbar.error(t('notices.loadedDataError'), dataError);
   }
 
-  const onHide = () => {
-    dispatch(closeModal());
-  };
-
   const ChatComponents = () => (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">
       <Row className="h-100 bg-white flex-md-row">
@@ -71,8 +67,8 @@ const Chat = () => {
 
         </Col>
       </Row>
-      <Modal show={isOpen} centered onHide={onHide}>
-        <Modals onHide={onHide} />
+      <Modal show={isOpen} centered onHide={() => dispatch(closeModal())}>
+        <Modals />
       </Modal>
     </Container>
   );
