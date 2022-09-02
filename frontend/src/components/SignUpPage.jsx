@@ -7,7 +7,7 @@ import {
   Col,
   Card,
 } from 'react-bootstrap';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useRollbar } from '@rollbar/react';
 import { toast } from 'react-toastify';
@@ -205,6 +205,14 @@ const SignUp = () => {
                 </Button>
               </Form>
             </Card.Body>
+
+            <Card.Footer className="p-4">
+              <div className="text-center">
+                <span>{t('signUp.footerText')}</span>
+                <Link to={routes.loginPagePath()}>{t('signUp.footerLink')}</Link>
+              </div>
+            </Card.Footer>
+
           </Card>
         </Col>
       </Row>

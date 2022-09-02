@@ -20,6 +20,8 @@ export default {
       password: 'Пароль',
       confirmPassword: 'Подтвердите пароль',
       submit: 'Зарегистрироваться',
+      footerText: 'Есть аккаунт? ',
+      footerLink: 'Авторизоваться',
     },
     chat: {
       header: {
