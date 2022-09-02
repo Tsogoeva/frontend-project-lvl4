@@ -5,13 +5,12 @@ import axios from 'axios';
 import { createAsyncThunk, createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 import routes from '../routes.js';
 
-export const fetchChannelsData = createAsyncThunk(
-  'channels/fetchChannelsData',
+export const fetchData = createAsyncThunk(
+  'channels/fetchData',
   async (getAuthHeader, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
-      const { channels, currentChannelId } = data;
-      return { channels, currentChannelId };
+      return data;
     } catch (error) {
       return rejectWithValue('Data not found');
     }
@@ -21,8 +20,8 @@ export const fetchChannelsData = createAsyncThunk(
 const channelsAdapter = createEntityAdapter();
 const initialState = channelsAdapter.getInitialState({
   currentChannelId: null,
-  channelsDataStatus: null,
-  channelsDataError: null,
+  dataStatus: null,
+  dataError: null,
 });
 
 const defaultChannelId = 1;
@@ -45,20 +44,20 @@ const channelsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchChannelsData.pending, (state) => {
-        state.channelsDataStatus = 'loading';
-        state.channelsDataError = null;
+      .addCase(fetchData.pending, (state) => {
+        state.dataStatus = 'loading';
+        state.dataError = null;
       })
-      .addCase(fetchChannelsData.fulfilled, (state, { payload }) => {
+      .addCase(fetchData.fulfilled, (state, { payload }) => {
         const { channels, currentChannelId } = payload;
         channelsAdapter.addMany(state, channels);
         state.currentChannelId = currentChannelId;
-        state.channelsDataStatus = 'idle';
-        state.channelsDataError = null;
+        state.dataStatus = 'idle';
+        state.dataError = null;
       })
-      .addCase(fetchChannelsData.rejected, (state, { payload }) => {
-        state.channelsDataStatus = 'failed';
-        state.channelsDataError = payload;
+      .addCase(fetchData.rejected, (state, { payload }) => {
+        state.dataStatus = 'failed';
+        state.dataError = payload;
       });
   },
 });

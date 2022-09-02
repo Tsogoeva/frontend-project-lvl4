@@ -1,29 +1,10 @@
 /* eslint no-param-reassign: ["error", { "props": false }] */
 
-import axios from 'axios';
-
-import { createAsyncThunk, createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-import { removeChannel } from './channelsSlice.js';
-import routes from '../routes.js';
-
-export const fetchMessagesData = createAsyncThunk(
-  'messages/fetchMessagesData',
-  async (getAuthHeader, { rejectWithValue }) => {
-    try {
-      const { data } = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
-      const { messages } = data;
-      return messages;
-    } catch (error) {
-      return rejectWithValue('Data not found');
-    }
-  },
-);
+import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { removeChannel, fetchData } from './channelsSlice.js';
 
 const messagesAdapter = createEntityAdapter();
-const initialState = messagesAdapter.getInitialState({
-  messagesDataStatus: null,
-  messagesDataError: null,
-});
+const initialState = messagesAdapter.getInitialState();
 
 const messagesSlice = createSlice({
   name: 'messages',
@@ -39,18 +20,9 @@ const messagesSlice = createSlice({
           .filter((e) => e.channelId !== payload);
         messagesAdapter.setAll(state, restMessages);
       })
-      .addCase(fetchMessagesData.pending, (state) => {
-        state.messagesDataStatus = 'loading';
-        state.messagesDataError = null;
-      })
-      .addCase(fetchMessagesData.fulfilled, (state, { payload }) => {
-        messagesAdapter.addMany(state, payload);
-        state.messagesDataStatus = 'idle';
-        state.messagesDataError = null;
-      })
-      .addCase(fetchMessagesData.rejected, (state, { payload }) => {
-        state.messagesDataStatus = 'failed';
-        state.messagesDataError = payload;
+      .addCase(fetchData.fulfilled, (state, { payload }) => {
+        const { messages } = payload
+        messagesAdapter.addMany(state, messages);
       });
   },
 });

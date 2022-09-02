@@ -12,8 +12,7 @@ import { useRollbar } from '@rollbar/react';
 import { toast } from 'react-toastify';
 
 import { useAuth } from '../hooks/index.js';
-import { fetchMessagesData } from '../slices/messagesSlice.js';
-import { fetchChannelsData } from '../slices/channelsSlice.js';
+import { fetchData } from '../slices/channelsSlice.js';
 import { closeModal } from '../slices/modalsSlice.js';
 import getModal from './modals/index.js';
 
@@ -38,23 +37,21 @@ const Chat = () => {
   const rollbar = useRollbar();
 
   useEffect(() => {
-    dispatch(fetchChannelsData(getAuthHeader));
-    dispatch(fetchMessagesData(getAuthHeader));
+    dispatch(fetchData(getAuthHeader));
   }, [dispatch, getAuthHeader]);
 
   const channels = useSelector((state) => Object.values(state.channels.entities));
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
-  const { channelsDataStatus, channelsDataError } = useSelector((state) => state.channels);
+  const { dataStatus, dataError } = useSelector((state) => state.channels);
 
   const messages = useSelector((state) => Object.values(state.messages.entities));
-  const { messagesDataStatus, messagesDataError } = useSelector((state) => state.messages);
 
   const modalInfo = useSelector((state) => state.modals);
   const isOpen = useSelector((state) => state.modals.isOpen);
 
-  if (channelsDataError || messagesDataError) {
+  if (dataError) {
     toast.warn(t('notices.loadedDataError'));
-    rollbar.error(t('notices.loadedDataError'), channelsDataError || messagesDataError);
+    rollbar.error(t('notices.loadedDataError'), dataError);
   }
 
   const onHide = () => {
@@ -95,7 +92,7 @@ const Chat = () => {
     </Container>
   );
 
-  return channelsDataStatus === 'idle' && messagesDataStatus === 'idle'
+  return dataStatus === 'idle'
     ? <ChatComponents />
     : (
       <div className="d-flex align-items-center justify-content-center h-100 centered">
